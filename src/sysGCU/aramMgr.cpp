@@ -88,8 +88,8 @@ inline u32 Node::dvdToAram(char const* name, bool useNull)
  * Address:	........
  * Size:	000140
  */
-void* Node::aramToMainRam(unsigned char* a2, unsigned long a3, unsigned long a4, JKRExpandSwitch a5, unsigned long a6, JKRHeap* a7,
-                          JKRDvdRipper::EAllocDirection a8, int a9, unsigned long* byteCnt)
+void* Node::aramToMainRam(u8* a2, u32 a3, u32 a4, JKRExpandSwitch a5, u32 a6, JKRHeap* a7, JKRDvdRipper::EAllocDirection a8, int a9,
+                          u32* byteCnt)
 {
 	void* addr = nullptr;
 	u32 zero   = 0;
@@ -135,8 +135,8 @@ void Mgr::init() { new Mgr(); }
  * Address:	80432B48
  * Size:	000080
  */
-Mgr::Mgr() 
-	: mNode("root")
+Mgr::Mgr()
+    : mNode("root")
 {
 	P2ASSERTLINE(248, gAramMgr == nullptr);
 	gAramMgr = this;
@@ -167,7 +167,7 @@ u32 Mgr::dvdToAram(char const* name, bool a2)
 			mNode.add(newNode);
 		} else {
 			success = newNode->dvdToAram(newName, false);
-			
+
 			if (success) {
 				mNode.add(newNode);
 			} else {
@@ -181,18 +181,17 @@ u32 Mgr::dvdToAram(char const* name, bool a2)
 	return success;
 }
 
-
 /*
  * --INFO--
  * Address:	80432E74
  * Size:	000154
  * TODO: Match
  */
-void* Mgr::aramToMainRam(char const* name, unsigned char* a2, unsigned long a3, unsigned long a4, JKRExpandSwitch a5, unsigned long a6,
-                         JKRHeap* a7, JKRDvdRipper::EAllocDirection a8, int a9, unsigned long* byteCnt)
+void* Mgr::aramToMainRam(char const* name, u8* a2, u32 a3, u32 a4, JKRExpandSwitch a5, u32 a6, JKRHeap* a7,
+                         JKRDvdRipper::EAllocDirection a8, int a9, u32* byteCnt)
 {
-	void* mem   = nullptr;
 	Node* found = search(name);
+	void* mem   = nullptr;
 
 	if (found) {
 		if (!a7) {
@@ -222,9 +221,9 @@ void ARAM::Mgr::dump()
 		status = node->mStatus;
 		u32 v1 = (status) ? status->mSize : 0;
 		if (max > v1) {
-		max = v1;
+			max = v1;
 		} else if (min < v1) {
-		min = v1;
+			min = v1;
 		}
 	}
 }
@@ -237,7 +236,7 @@ void ARAM::Mgr::dump()
 Node* ARAM::Mgr::search(char const* str)
 {
 	Node* result = nullptr;
-	CNode* node = mNode.mChild;
+	CNode* node  = mNode.mChild;
 	while (node) {
 		if (strcmp(str, node->mName) == 0) {
 			result = (Node*)node;
