@@ -336,7 +336,7 @@ void Chappy::TUnit::update()
 		if (control) {
 			stickX     = control->mSStick.mXPos;
 			stickY     = control->mSStick.mYPos;
-			buttonDown = control->mButton.mButtonDown & Controller::PRESS_Z;
+			buttonDown = (control->mButton.mButtonDown & Controller::PRESS_Z) == Controller::PRESS_Z;
 		}
 		if (mCounter == 0) {
 			startAIState_(CHAPPYAI_6);
