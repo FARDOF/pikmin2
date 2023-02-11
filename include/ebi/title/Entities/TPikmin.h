@@ -4,6 +4,8 @@
 #include "CNode.h"
 #include "Vector2.h"
 #include "ebi/Geometry.h"
+#include "ebi/E3DGraph.h"
+#include "ebi/title/TObjects.h"
 
 struct JKRArchive;
 
@@ -13,8 +15,52 @@ struct TObjBase;
 
 namespace Pikmin {
 struct TMgr;
+// Tentative, will be fixed as I work through ebiP2TitlePikmin.cpp
+
+struct TParam : public TParamBase {
+	TParam();
+
+	// _00-_0C = TParamBase
+};
+
+
+struct TAnimFolder : public E3DAnimFolderBase {
+	virtual E3DAnimRes* getAnimRes(long); // _08 (weak)
+
+	void load(J3DModelData*, JKRArchive*);
+	E3DAnimRes* getAnimRes(int);
+
+	// _00 = VTBL
+	E3DAnimRes mAnims[4]; // _04 - move, wait, attack, wait2
+};
+
+struct TAnimator {
+	TAnimator();
+
+	void setArchive(JKRArchive*);
+	J3DModel* newJ3DModel();
+
+	
+	J3DModelData* pModelDataRed;
+	J3DModelData* pModelDataYellow;
+	J3DModelData* pModelDataBlue;
+	J3DModelData* pModelDataPurple;
+	J3DModelData* pModelDataWhite;
+	J3DAnmTransform* _14;
+	J3DAnmTransform* _18;
+	J3DMtxCalcAnmBase* _1C;
+	J3DMtxCalc* _20;
+
+};
+
+struct TBoidParam {
+	TBoidParam();
+
+};
+
 
 struct TBoidParamMgr : public CNode {
+	TBoidParamMgr();
 	virtual ~TBoidParamMgr(); // _08 (weak)
 
 	// _00     = VTBL
@@ -33,7 +79,7 @@ struct TUnit : public TObjBase {
 
 	void init(TMgr*, long);
 	void goDestination();
-	void beAttacked();
+	bool beAttacked();
 	void alive();
 	bool isAssemble();
 	bool isWalk();

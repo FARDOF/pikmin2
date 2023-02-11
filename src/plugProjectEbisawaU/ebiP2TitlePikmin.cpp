@@ -1,4 +1,6 @@
+#include "ebi/title/Entities/TPikmin.h"
 #include "types.h"
+#include "JSystem/J3D/J3DModelLoader.h"
 
 /*
     Generated from dpostproc
@@ -378,247 +380,88 @@ namespace title {
  * Address:	........
  * Size:	0000D4
  */
-Pikmin::TBoidParamMgr::TBoidParamMgr()
+/* Pikmin::TBoidParamMgr::TBoidParamMgr()
 {
 	// UNUSED FUNCTION
-}
+} */
 
 /*
  * --INFO--
  * Address:	........
  * Size:	00004C
  */
-void Pikmin::TBoidParamMgr::startState((ebi::title::Pikmin::TBoidParamMgr::enumState, float))
+/* void Pikmin::TBoidParamMgr::startState((ebi::title::Pikmin::TBoidParamMgr::enumState, float))
 {
 	// UNUSED FUNCTION
-}
+} */
 
 /*
  * --INFO--
  * Address:	........
  * Size:	000130
  */
-void Pikmin::TBoidParamMgr::update()
+/* void Pikmin::TBoidParamMgr::update()
 {
 	// UNUSED FUNCTION
-}
+} */
 
 /*
  * --INFO--
  * Address:	........
  * Size:	00002C
  */
-Pikmin::TAnimator::TAnimator()
+/* Pikmin::TAnimator::TAnimator()
 {
 	// UNUSED FUNCTION
-}
+} */
 
 /*
  * --INFO--
  * Address:	803E3DE8
  * Size:	0002D8
  */
-void Pikmin::TAnimator::setArchive(JKRArchive*)
+void Pikmin::TAnimator::setArchive(JKRArchive* arc)
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-stw      r0, 0x24(r1)
-stw      r31, 0x1c(r1)
-mr       r31, r3
-stw      r30, 0x18(r1)
-stw      r29, 0x14(r1)
-stw      r28, 0x10(r1)
-mr       r28, r4
-lis      r4, lbl_80497158@ha
-lwz      r12, 0(r28)
-addi     r30, r4, lbl_80497158@l
-mr       r3, r28
-lwz      r12, 0x14(r12)
-addi     r4, r30, 0x104
-mtctr    r12
-bctrl
-or.      r29, r3, r3
-bne      lbl_803E3E48
-addi     r3, r30, 0x120
-addi     r5, r30, 0x138
-li       r4, 0xb0
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
+	void* file;
+	file = arc->getResource("pikmin/title_red_piki.bmd");
+	P2ASSERTLINE(0xb0, file);
+	pModelDataRed = J3DModelLoaderDataBase::load(file, 0x40200000);
+	file = arc->getResource("pikmin/title_yellow_piki.bmd");
+	P2ASSERTLINE(0xba, file);
+	pModelDataYellow = J3DModelLoaderDataBase::load(file, 0x40200000);
+	file = arc->getResource("pikmin/title_blue_piki.bmd");
+	P2ASSERTLINE(0xc4, file);
+	pModelDataBlue = J3DModelLoaderDataBase::load(file, 0x40200000);
+	file = arc->getResource("pikmin/title_black_piki.bmd");
+	P2ASSERTLINE(0xce, file);
+	pModelDataPurple = J3DModelLoaderDataBase::load(file, 0x40200000);
+	file = arc->getResource("pikmin/title_white_piki.bmd");
+	P2ASSERTLINE(0xd8, file);
+	pModelDataWhite = J3DModelLoaderDataBase::load(file, 0x40200000);
+	file = arc->getResource("pikmin/wait.bck");
+	P2ASSERTLINE(0xe4, file);
+	_14 = (J3DAnmTransform*)J3DAnmLoaderDataBase::load(file);
+	file = arc->getResource("pikmin/wave.bck");
+	P2ASSERTLINE(0xe9, file);
+	_18 = (J3DAnmTransform*)J3DAnmLoaderDataBase::load(file);
+	_1C = J3DNewMtxCalcAnm(pModelDataRed->mJointTree.mFlags & 0xf, _14);
+	//_20 = J3DUNewMtxCalcAnm(pModelDataRed->mJointTree.mFlags & 0xf, _14);
+	J3DModelData* model = pModelDataBlue;
+	model->newSharedDisplayList(0x40000);
+	model->makeSharedDL();
+	model = pModelDataRed;
+	model->newSharedDisplayList(0x40000);
+	model->makeSharedDL();
+	model = pModelDataYellow;
+	model->newSharedDisplayList(0x40000);
+	model->makeSharedDL();
+	model = pModelDataPurple;
+	model->newSharedDisplayList(0x40000);
+	model->makeSharedDL();
+	model = pModelDataWhite;
+	model->newSharedDisplayList(0x40000);
+	model->makeSharedDL();
 
-lbl_803E3E48:
-mr       r3, r29
-lis      r4, 0x2010
-bl       load__22J3DModelLoaderDataBaseFPCvUl
-stw      r3, 0(r31)
-mr       r3, r28
-addi     r4, r30, 0x144
-lwz      r12, 0(r28)
-lwz      r12, 0x14(r12)
-mtctr    r12
-bctrl
-or.      r29, r3, r3
-bne      lbl_803E3E8C
-addi     r3, r30, 0x120
-addi     r5, r30, 0x138
-li       r4, 0xba
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_803E3E8C:
-mr       r3, r29
-lis      r4, 0x2010
-bl       load__22J3DModelLoaderDataBaseFPCvUl
-stw      r3, 4(r31)
-mr       r3, r28
-addi     r4, r30, 0x164
-lwz      r12, 0(r28)
-lwz      r12, 0x14(r12)
-mtctr    r12
-bctrl
-or.      r29, r3, r3
-bne      lbl_803E3ED0
-addi     r3, r30, 0x120
-addi     r5, r30, 0x138
-li       r4, 0xc4
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_803E3ED0:
-mr       r3, r29
-lis      r4, 0x2010
-bl       load__22J3DModelLoaderDataBaseFPCvUl
-stw      r3, 8(r31)
-mr       r3, r28
-addi     r4, r30, 0x180
-lwz      r12, 0(r28)
-lwz      r12, 0x14(r12)
-mtctr    r12
-bctrl
-or.      r29, r3, r3
-bne      lbl_803E3F14
-addi     r3, r30, 0x120
-addi     r5, r30, 0x138
-li       r4, 0xce
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_803E3F14:
-mr       r3, r29
-lis      r4, 0x2010
-bl       load__22J3DModelLoaderDataBaseFPCvUl
-stw      r3, 0xc(r31)
-mr       r3, r28
-addi     r4, r30, 0x19c
-lwz      r12, 0(r28)
-lwz      r12, 0x14(r12)
-mtctr    r12
-bctrl
-or.      r29, r3, r3
-bne      lbl_803E3F58
-addi     r3, r30, 0x120
-addi     r5, r30, 0x138
-li       r4, 0xd8
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_803E3F58:
-mr       r3, r29
-lis      r4, 0x2010
-bl       load__22J3DModelLoaderDataBaseFPCvUl
-stw      r3, 0x10(r31)
-mr       r3, r28
-addi     r4, r30, 0x1b8
-lwz      r12, 0(r28)
-lwz      r12, 0x14(r12)
-mtctr    r12
-bctrl
-or.      r29, r3, r3
-bne      lbl_803E3F9C
-addi     r3, r30, 0x120
-addi     r5, r30, 0x138
-li       r4, 0xe4
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_803E3F9C:
-mr       r3, r29
-bl       load__20J3DAnmLoaderDataBaseFPCv
-stw      r3, 0x14(r31)
-mr       r3, r28
-addi     r4, r30, 0x1c8
-lwz      r12, 0(r28)
-lwz      r12, 0x14(r12)
-mtctr    r12
-bctrl
-or.      r29, r3, r3
-bne      lbl_803E3FDC
-addi     r3, r30, 0x120
-addi     r5, r30, 0x138
-li       r4, 0xe9
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_803E3FDC:
-mr       r3, r29
-bl       load__20J3DAnmLoaderDataBaseFPCv
-stw      r3, 0x18(r31)
-lwz      r3, 0(r31)
-lwz      r4, 0x14(r31)
-lwz      r0, 0x18(r3)
-clrlwi   r3, r0, 0x1c
-bl       J3DNewMtxCalcAnm__FUlP15J3DAnmTransform
-stw      r3, 0x1c(r31)
-li       r6, 0
-li       r7, 0
-li       r8, 0
-lwz      r3, 0(r31)
-lwz      r4, 0x14(r31)
-lwz      r0, 0x18(r3)
-lwz      r5, 0x18(r31)
-clrlwi   r3, r0, 0x1c
-bl
-J3DUNewMtxCalcAnm__FUlP15J3DAnmTransformP15J3DAnmTransformP15J3DAnmTransformP15J3DAnmTransform14J3DMtxCalcFlag
-stw      r3, 0x20(r31)
-lis      r4, 4
-lwz      r29, 8(r31)
-mr       r3, r29
-bl       newSharedDisplayList__12J3DModelDataFUl
-mr       r3, r29
-bl       makeSharedDL__12J3DModelDataFv
-lwz      r30, 0(r31)
-lis      r4, 4
-mr       r3, r30
-bl       newSharedDisplayList__12J3DModelDataFUl
-mr       r3, r30
-bl       makeSharedDL__12J3DModelDataFv
-lwz      r30, 4(r31)
-lis      r4, 4
-mr       r3, r30
-bl       newSharedDisplayList__12J3DModelDataFUl
-mr       r3, r30
-bl       makeSharedDL__12J3DModelDataFv
-lwz      r30, 0xc(r31)
-lis      r4, 4
-mr       r3, r30
-bl       newSharedDisplayList__12J3DModelDataFUl
-mr       r3, r30
-bl       makeSharedDL__12J3DModelDataFv
-lwz      r30, 0x10(r31)
-lis      r4, 4
-mr       r3, r30
-bl       newSharedDisplayList__12J3DModelDataFUl
-mr       r3, r30
-bl       makeSharedDL__12J3DModelDataFv
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-lwz      r28, 0x10(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
 }
 
 /*
@@ -626,30 +469,30 @@ blr
  * Address:	........
  * Size:	000020
  */
-void Pikmin::TAnimator::setAnmWait(J3DModel*, float)
+/* void Pikmin::TAnimator::setAnmWait(J3DModel*, float)
 {
 	// UNUSED FUNCTION
-}
+} */
 
 /*
  * --INFO--
  * Address:	........
  * Size:	0000A4
  */
-void Pikmin::TAnimator::setAnmWave(J3DModel*, float, float, float)
+/* void Pikmin::TAnimator::setAnmWave(J3DModel*, float, float, float)
 {
 	// UNUSED FUNCTION
-}
+} */
 
 /*
  * --INFO--
  * Address:	........
  * Size:	000218
  */
-void Pikmin::TAnimator::newJ3DModel(long)
+/* void Pikmin::TAnimator::newJ3DModel(long)
 {
 	// UNUSED FUNCTION
-}
+} */
 
 /*
  * --INFO--
@@ -1100,220 +943,13 @@ blr
 	*/
 }
 
+
 } // namespace title
 } // namespace ebi
 
-/*
- * --INFO--
- * Address:	803E4668
- * Size:	000164
- */
-void setStartPos__Q43ebi5title6Pikmin4TMgrFP10Vector2<float>()
-{
-	/*
-	stwu     r1, -0x20(r1)
-	li       r0, 0x3e
-	mr       r7, r4
-	li       r6, 0
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	stw      r29, 0x14(r1)
-	li       r29, 0
-	mtctr    r0
 
-lbl_803E468C:
-	lwz      r0, 0x2ac(r3)
-	addi     r30, r6, 0x98
-	lfs      f0, 0(r7)
-	addi     r31, r6, 0x130
-	add      r5, r0, r6
-	addi     r12, r6, 0x1c8
-	stfs     f0, 4(r5)
-	addi     r11, r6, 0x260
-	addi     r10, r6, 0x2f8
-	addi     r9, r6, 0x390
-	lfs      f0, 4(r7)
-	addi     r8, r6, 0x428
-	addi     r6, r6, 0x4c0
-	addi     r29, r29, 8
-	stfs     f0, 8(r5)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 8(r7)
-	add      r30, r0, r30
-	stfs     f0, 4(r30)
-	lfs      f0, 0xc(r7)
-	stfs     f0, 8(r30)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0x10(r7)
-	add      r31, r0, r31
-	stfs     f0, 4(r31)
-	lfs      f0, 0x14(r7)
-	stfs     f0, 8(r31)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0x18(r7)
-	add      r12, r0, r12
-	stfs     f0, 4(r12)
-	lfs      f0, 0x1c(r7)
-	stfs     f0, 8(r12)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0x20(r7)
-	add      r11, r0, r11
-	stfs     f0, 4(r11)
-	lfs      f0, 0x24(r7)
-	stfs     f0, 8(r11)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0x28(r7)
-	add      r10, r0, r10
-	stfs     f0, 4(r10)
-	lfs      f0, 0x2c(r7)
-	stfs     f0, 8(r10)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0x30(r7)
-	add      r9, r0, r9
-	stfs     f0, 4(r9)
-	lfs      f0, 0x34(r7)
-	stfs     f0, 8(r9)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0x38(r7)
-	add      r8, r0, r8
-	stfs     f0, 4(r8)
-	lfs      f0, 0x3c(r7)
-	addi     r7, r7, 0x40
-	stfs     f0, 8(r8)
-	bdnz     lbl_803E468C
-	slwi     r5, r29, 3
-	subfic   r0, r29, 0x1f4
-	mulli    r6, r29, 0x98
-	add      r4, r4, r5
-	mtctr    r0
-	cmpwi    r29, 0x1f4
-	bge      lbl_803E47B8
 
-lbl_803E4794:
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0(r4)
-	add      r5, r0, r6
-	addi     r6, r6, 0x98
-	stfs     f0, 4(r5)
-	lfs      f0, 4(r4)
-	addi     r4, r4, 8
-	stfs     f0, 8(r5)
-	bdnz     lbl_803E4794
 
-lbl_803E47B8:
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	addi     r1, r1, 0x20
-	blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	803E47CC
- * Size:	000164
- */
-void setDestPos__Q43ebi5title6Pikmin4TMgrFP10Vector2<float>()
-{
-	/*
-	stwu     r1, -0x20(r1)
-	li       r0, 0x3e
-	mr       r7, r4
-	li       r6, 0
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	stw      r29, 0x14(r1)
-	li       r29, 0
-	mtctr    r0
-
-lbl_803E47F0:
-	lwz      r0, 0x2ac(r3)
-	addi     r30, r6, 0x98
-	lfs      f0, 0(r7)
-	addi     r31, r6, 0x130
-	add      r5, r0, r6
-	addi     r12, r6, 0x1c8
-	stfs     f0, 0x2c(r5)
-	addi     r11, r6, 0x260
-	addi     r10, r6, 0x2f8
-	addi     r9, r6, 0x390
-	lfs      f0, 4(r7)
-	addi     r8, r6, 0x428
-	addi     r6, r6, 0x4c0
-	addi     r29, r29, 8
-	stfs     f0, 0x30(r5)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 8(r7)
-	add      r30, r0, r30
-	stfs     f0, 0x2c(r30)
-	lfs      f0, 0xc(r7)
-	stfs     f0, 0x30(r30)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0x10(r7)
-	add      r31, r0, r31
-	stfs     f0, 0x2c(r31)
-	lfs      f0, 0x14(r7)
-	stfs     f0, 0x30(r31)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0x18(r7)
-	add      r12, r0, r12
-	stfs     f0, 0x2c(r12)
-	lfs      f0, 0x1c(r7)
-	stfs     f0, 0x30(r12)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0x20(r7)
-	add      r11, r0, r11
-	stfs     f0, 0x2c(r11)
-	lfs      f0, 0x24(r7)
-	stfs     f0, 0x30(r11)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0x28(r7)
-	add      r10, r0, r10
-	stfs     f0, 0x2c(r10)
-	lfs      f0, 0x2c(r7)
-	stfs     f0, 0x30(r10)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0x30(r7)
-	add      r9, r0, r9
-	stfs     f0, 0x2c(r9)
-	lfs      f0, 0x34(r7)
-	stfs     f0, 0x30(r9)
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0x38(r7)
-	add      r8, r0, r8
-	stfs     f0, 0x2c(r8)
-	lfs      f0, 0x3c(r7)
-	addi     r7, r7, 0x40
-	stfs     f0, 0x30(r8)
-	bdnz     lbl_803E47F0
-	slwi     r5, r29, 3
-	subfic   r0, r29, 0x1f4
-	mulli    r6, r29, 0x98
-	add      r4, r4, r5
-	mtctr    r0
-	cmpwi    r29, 0x1f4
-	bge      lbl_803E491C
-
-lbl_803E48F8:
-	lwz      r0, 0x2ac(r3)
-	lfs      f0, 0(r4)
-	add      r5, r0, r6
-	addi     r6, r6, 0x98
-	stfs     f0, 0x2c(r5)
-	lfs      f0, 4(r4)
-	addi     r4, r4, 8
-	stfs     f0, 0x30(r5)
-	bdnz     lbl_803E48F8
-
-lbl_803E491C:
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	addi     r1, r1, 0x20
-	blr
-	*/
-}
 
 namespace ebi {
 namespace title {
@@ -2111,7 +1747,7 @@ blr
  * Address:	803E528C
  * Size:	000010
  */
-void Pikmin::TMgr::getUnit(long)
+Pikmin::TUnit* Pikmin::TMgr::getUnit(long)
 {
 	/*
 mulli    r0, r4, 0x98
@@ -2438,17 +2074,17 @@ blr
  * Address:	........
  * Size:	000028
  */
-void Pikmin::TUnit::chaseKogane(ebi::title::TObjBase*)
+/* void Pikmin::TUnit::chaseKogane(ebi::title::TObjBase*)
 {
 	// UNUSED FUNCTION
-}
+} */
 
 /*
  * --INFO--
  * Address:	803E5694
  * Size:	00006C
  */
-void Pikmin::TUnit::beAttacked()
+bool Pikmin::TUnit::beAttacked()
 {
 	/*
 stwu     r1, -0x20(r1)
@@ -2493,7 +2129,7 @@ blr
 void Pikmin::TUnit::alive()
 {
 	// Generated from stb r0, 0x94(r3)
-	_94 = 0;
+	//_94 = 0;
 }
 
 /*
@@ -2501,7 +2137,7 @@ void Pikmin::TUnit::alive()
  * Address:	803E570C
  * Size:	000014
  */
-void Pikmin::TUnit::isCalc()
+bool Pikmin::TUnit::isCalc()
 {
 	/*
 lwz      r3, 0x84(r3)
@@ -2517,7 +2153,7 @@ blr
  * Address:	803E5720
  * Size:	000024
  */
-void Pikmin::TUnit::isAssemble()
+bool Pikmin::TUnit::isAssemble()
 {
 	/*
 lwz      r0, 0x84(r3)
@@ -2541,7 +2177,7 @@ blr
  * Address:	803E5744
  * Size:	000024
  */
-void Pikmin::TUnit::isWalk()
+bool Pikmin::TUnit::isWalk()
 {
 	/*
 lwz      r0, 0x84(r3)
@@ -2565,10 +2201,10 @@ blr
  * Address:	........
  * Size:	000014
  */
-void Pikmin::TUnit::isBoid()
+/* void Pikmin::TUnit::isBoid()
 {
 	// UNUSED FUNCTION
-}
+} */
 
 /*
  * --INFO--
@@ -3721,6 +3357,25 @@ blr
 	*/
 }
 
+
+/*
+ * --INFO--
+ * Address:	803E4668
+ * Size:	000164
+ */
+void Pikmin::TMgr::setStartPos(Vector2f* pos) 
+{
+} 
+
+/*
+ * --INFO--
+ * Address:	803E47CC
+ * Size:	000164
+ */
+void Pikmin::TMgr::setDestPos(Vector2f* pos) 
+{
+} 
+
 } // namespace title
 } // namespace ebi
 
@@ -3729,171 +3384,9 @@ blr
  * Address:	803E668C
  * Size:	000200
  */
-void updateSmoothWalk___Q43ebi5title6Pikmin5TUnitFR10Vector2<float>()
+/* void updateSmoothWalk___Q43ebi5title6Pikmin5TUnitFR10Vector2<float>()
 {
-	/*
-	lfs      f5, 0(r4)
-	lfs      f0, 4(r4)
-	fmuls    f1, f5, f5
-	lwz      r5, 0x34(r3)
-	fmuls    f6, f0, f0
-	lfs      f0, lbl_8051FC60@sda21(r2)
-	lfs      f2, 0x964(r5)
-	lfs      f3, 0x968(r5)
-	fadds    f1, f1, f6
-	lfs      f4, 0x960(r5)
-	fcmpo    cr0, f1, f0
-	ble      lbl_803E66D4
-	fmadds   f1, f5, f5, f6
-	fcmpo    cr0, f1, f0
-	ble      lbl_803E66D8
-	frsqrte  f0, f1
-	fmuls    f1, f0, f1
-	b        lbl_803E66D8
-
-lbl_803E66D4:
-	fmr      f1, f0
-
-lbl_803E66D8:
-	fcmpo    cr0, f1, f4
-	ble      lbl_803E66E8
-	fmr      f1, f4
-	b        lbl_803E66F8
-
-lbl_803E66E8:
-	lfs      f0, lbl_8051FC60@sda21(r2)
-	fcmpo    cr0, f1, f0
-	bge      lbl_803E66F8
-	fmr      f1, f0
-
-lbl_803E66F8:
-	stfs     f1, 0x14(r3)
-	lfs      f0, lbl_8051FC60@sda21(r2)
-	lfs      f5, 4(r4)
-	lfs      f4, 0(r4)
-	fmuls    f1, f5, f5
-	fmadds   f1, f4, f4, f1
-	fcmpo    cr0, f1, f0
-	ble      lbl_803E6728
-	ble      lbl_803E672C
-	frsqrte  f0, f1
-	fmuls    f1, f0, f1
-	b        lbl_803E672C
-
-lbl_803E6728:
-	fmr      f1, f0
-
-lbl_803E672C:
-	lfs      f0, lbl_8051FC60@sda21(r2)
-	fcmpu    cr0, f0, f1
-	beq      lbl_803E6748
-	lfs      f0, lbl_8051FC90@sda21(r2)
-	fdivs    f0, f0, f1
-	fmuls    f4, f4, f0
-	fmuls    f5, f5, f0
-
-lbl_803E6748:
-	fmuls    f7, f5, f2
-	lfs      f0, lbl_8051FC60@sda21(r2)
-	fmuls    f6, f4, f2
-	fmuls    f1, f7, f7
-	fmr      f2, f6
-	fmr      f4, f7
-	fmadds   f5, f6, f6, f1
-	fcmpo    cr0, f5, f0
-	ble      lbl_803E6780
-	ble      lbl_803E677C
-	frsqrte  f0, f5
-	fmuls    f0, f0, f5
-	b        lbl_803E6780
-
-lbl_803E677C:
-	fmr      f0, f5
-
-lbl_803E6780:
-	fcmpo    cr0, f0, f3
-	ble      lbl_803E67DC
-	lfs      f0, lbl_8051FC60@sda21(r2)
-	fcmpo    cr0, f5, f0
-	ble      lbl_803E67AC
-	fmadds   f1, f6, f6, f1
-	fcmpo    cr0, f1, f0
-	ble      lbl_803E67B0
-	frsqrte  f0, f1
-	fmuls    f1, f0, f1
-	b        lbl_803E67B0
-
-lbl_803E67AC:
-	fmr      f1, f0
-
-lbl_803E67B0:
-	lfs      f0, lbl_8051FC60@sda21(r2)
-	fcmpu    cr0, f0, f1
-	beq      lbl_803E67CC
-	lfs      f0, lbl_8051FC90@sda21(r2)
-	fdivs    f0, f0, f1
-	fmuls    f2, f2, f0
-	fmuls    f4, f4, f0
-
-lbl_803E67CC:
-	fmuls    f2, f2, f3
-	fmuls    f4, f4, f3
-	fmr      f6, f2
-	fmr      f7, f4
-
-lbl_803E67DC:
-	lfs      f0, 0xc(r3)
-	lfs      f2, 0x10(r3)
-	fadds    f1, f0, f6
-	lfs      f0, lbl_8051FC60@sda21(r2)
-	fadds    f2, f2, f7
-	stfs     f1, 0xc(r3)
-	stfs     f2, 0x10(r3)
-	lfs      f3, 0xc(r3)
-	lfs      f2, 0x10(r3)
-	fmuls    f1, f3, f3
-	fmuls    f2, f2, f2
-	fadds    f1, f1, f2
-	fcmpo    cr0, f1, f0
-	ble      lbl_803E682C
-	fmadds   f2, f3, f3, f2
-	fcmpo    cr0, f2, f0
-	ble      lbl_803E6830
-	frsqrte  f0, f2
-	fmuls    f2, f0, f2
-	b        lbl_803E6830
-
-lbl_803E682C:
-	fmr      f2, f0
-
-lbl_803E6830:
-	lfs      f0, lbl_8051FC60@sda21(r2)
-	fcmpu    cr0, f0, f2
-	beq      lbl_803E685C
-	lfs      f1, lbl_8051FC90@sda21(r2)
-	lfs      f0, 0xc(r3)
-	fdivs    f1, f1, f2
-	fmuls    f0, f0, f1
-	stfs     f0, 0xc(r3)
-	lfs      f0, 0x10(r3)
-	fmuls    f0, f0, f1
-	stfs     f0, 0x10(r3)
-
-lbl_803E685C:
-	lfs      f3, 0x14(r3)
-	lfs      f0, 0xc(r3)
-	lfs      f2, 0x10(r3)
-	fmuls    f0, f0, f3
-	lfs      f1, 4(r3)
-	fmuls    f2, f2, f3
-	lfs      f3, 8(r3)
-	fadds    f0, f1, f0
-	fadds    f1, f3, f2
-	stfs     f0, 4(r3)
-	stfs     f1, 8(r3)
-	blr
-	*/
-}
+} */
 
 namespace ebi {
 namespace title {
