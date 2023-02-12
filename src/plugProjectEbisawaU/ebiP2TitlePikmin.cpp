@@ -1,4 +1,5 @@
 #include "ebi/title/Entities/TPikmin.h"
+#include "ebi/title/TTitle.h"
 #include "types.h"
 #include "JSystem/J3D/J3DModelLoader.h"
 
@@ -445,7 +446,7 @@ void Pikmin::TAnimator::setArchive(JKRArchive* arc)
 	P2ASSERTLINE(0xe9, file);
 	_18 = (J3DAnmTransform*)J3DAnmLoaderDataBase::load(file);
 	_1C = J3DNewMtxCalcAnm(pModelDataRed->mJointTree.mFlags & 0xf, _14);
-	//_20 = J3DUNewMtxCalcAnm(pModelDataRed->mJointTree.mFlags & 0xf, _14);
+	_20 = J3DUNewMtxCalcAnm(pModelDataRed->mJointTree.mFlags & 0xf, _14, _18, nullptr, nullptr, 0);
 	J3DModelData* model = pModelDataBlue;
 	model->newSharedDisplayList(0x40000);
 	model->makeSharedDL();
@@ -500,113 +501,29 @@ void Pikmin::TAnimator::setArchive(JKRArchive* arc)
  * Size:	000198
  */
 Pikmin::TMgr::TMgr()
+    : CNode("PikminMgr")
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-lis      r4, __vt__5CNode@ha
-li       r6, 0
-stw      r0, 0x14(r1)
-addi     r0, r4, __vt__5CNode@l
-lis      r4, lbl_80497330@ha
-stw      r31, 0xc(r1)
-addi     r5, r4, lbl_80497330@l
-mr       r31, r3
-li       r4, 1
-stw      r0, 0(r3)
-lis      r3, __vt__Q43ebi5title6Pikmin4TMgr@ha
-addi     r0, r3, __vt__Q43ebi5title6Pikmin4TMgr@l
-stw      r6, 0x10(r31)
-addi     r3, r31, 0x1c
-stw      r6, 0xc(r31)
-stw      r6, 8(r31)
-stw      r6, 4(r31)
-stw      r5, 0x14(r31)
-stw      r0, 0(r31)
-bl       __ct__Q43ebi5title6Pikmin6TParamFv
-lis      r3, __vt__5CNode@ha
-lis      r4, lbl_80497178@ha
-addi     r0, r3, __vt__5CNode@l
-li       r9, 0
-stw      r0, 0x2b0(r31)
-lis      r5, __vt__Q43ebi5title6Pikmin13TBoidParamMgr@ha
-addi     r0, r5, __vt__Q43ebi5title6Pikmin13TBoidParamMgr@l
-addi     r8, r4, lbl_80497178@l
-stw      r9, 0x2c0(r31)
-lis      r3, __ct__Q43ebi5title6Pikmin10TBoidParamFv@ha
-addi     r4, r3, __ct__Q43ebi5title6Pikmin10TBoidParamFv@l
-li       r5, 0
-stw      r9, 0x2bc(r31)
-addi     r3, r31, 0x2d0
-li       r6, 0x150
-li       r7, 5
-stw      r9, 0x2b8(r31)
-stw      r9, 0x2b4(r31)
-stw      r8, 0x2c4(r31)
-stw      r0, 0x2b0(r31)
-bl       __construct_array
-li       r0, 0
-lfs      f1, lbl_8051FC60@sda21(r2)
-stw      r0, 0x980(r31)
-stw      r0, 0x984(r31)
-stfs     f1, 0x960(r31)
-stfs     f1, 0x964(r31)
-stfs     f1, 0x968(r31)
-stfs     f1, 0x96c(r31)
-stfs     f1, 0x970(r31)
-stfs     f1, 0x974(r31)
-stfs     f1, 0x978(r31)
-stfs     f1, 0x97c(r31)
-lwz      r3, sys@sda21(r13)
-lfs      f0, 0x54(r3)
-fdivs    f1, f1, f0
-bl       __cvt_fp2unsigned
-stw      r3, 0x980(r31)
-li       r0, 0
-stw      r3, 0x984(r31)
-li       r3, 0x24
-stw      r0, 0x2cc(r31)
-stw      r0, 0x2c8(r31)
-bl       __nw__FUl
-cmplwi   r3, 0
-beq      lbl_803E41F8
-li       r0, 0
-stw      r0, 0(r3)
-stw      r0, 4(r3)
-stw      r0, 8(r3)
-stw      r0, 0xc(r3)
-stw      r0, 0x10(r3)
-stw      r0, 0x14(r3)
-stw      r0, 0x18(r3)
-stw      r0, 0x1c(r3)
-stw      r0, 0x20(r3)
-
-lbl_803E41F8:
-stw      r3, 0x18(r31)
-lis      r3, 0x000128F0@ha
-addi     r3, r3, 0x000128F0@l
-bl       __nwa__FUl
-lis      r4, __ct__Q43ebi5title6Pikmin5TUnitFv@ha
-lis      r5, __dt__Q43ebi5title6Pikmin5TUnitFv@ha
-addi     r4, r4, __ct__Q43ebi5title6Pikmin5TUnitFv@l
-li       r6, 0x98
-addi     r5, r5, __dt__Q43ebi5title6Pikmin5TUnitFv@l
-li       r7, 0x1f4
-bl       __construct_new_array
-stw      r3, 0x2ac(r31)
-mr       r3, r31
-lfs      f0, lbl_8051FC60@sda21(r2)
-addi     r4, r31, 0x2b0
-stfs     f0, 0x988(r31)
-stfs     f0, 0x98c(r31)
-bl       add__5CNodeFP5CNode
-lwz      r0, 0x14(r1)
-mr       r3, r31
-lwz      r31, 0xc(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+    mCounter = 0;
+    mCounter2 = 0;
+    unk[0] = 0;
+    unk[1] = 0;
+    unk[2] = 0;
+    unk[3] = 0;
+    unk[4] = 0;
+    unk[5] = 0;
+    unk[6] = 0;
+    unk[7] = 0;
+    u32 time               = 0.0f / sys->mDeltaTime;
+    mCounter = time;
+    mCounter2 = time;
+    mBoidParamMgr._1C = 0;
+    mBoidParamMgr._18 = 0;
+    mModelData = (J3DModelData*) new TruncatedJ3DModelData;
+    pUnits = new TUnit[500];
+    _998 = 0.0f;
+    _99C = 0.0f;
+    add((CNode *)&mBoidParamMgr);
+    
 }
 
 /*
@@ -616,43 +533,6 @@ blr
  */
 Pikmin::TUnit::~TUnit()
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-or.      r31, r3, r3
-beq      lbl_803E42B4
-lis      r3, __vt__Q43ebi5title6Pikmin5TUnit@ha
-addic.   r0, r31, 0x4c
-addi     r0, r3, __vt__Q43ebi5title6Pikmin5TUnit@l
-stw      r0, 0(r31)
-beq      lbl_803E4290
-lis      r3, __vt__12J3DFrameCtrl@ha
-addi     r0, r3, __vt__12J3DFrameCtrl@l
-stw      r0, 0x4c(r31)
-
-lbl_803E4290:
-addic.   r0, r31, 0x38
-beq      lbl_803E42A4
-lis      r3, __vt__12J3DFrameCtrl@ha
-addi     r0, r3, __vt__12J3DFrameCtrl@l
-stw      r0, 0x38(r31)
-
-lbl_803E42A4:
-extsh.   r0, r4
-ble      lbl_803E42B4
-mr       r3, r31
-bl       __dl__FPv
-
-lbl_803E42B4:
-lwz      r0, 0x14(r1)
-mr       r3, r31
-lwz      r31, 0xc(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
 }
 
 /*
@@ -660,68 +540,20 @@ blr
  * Address:	803E42CC
  * Size:	0000D8
  */
-void Pikmin::TMgr::setArchive(JKRArchive*)
+void Pikmin::TMgr::setArchive(JKRArchive* arc)
 {
-	/*
-stwu     r1, -0x430(r1)
-mflr     r0
-lis      r5, lbl_80497470@ha
-stw      r0, 0x434(r1)
-addi     r5, r5, lbl_80497470@l
-stw      r31, 0x42c(r1)
-mr       r31, r4
-stw      r30, 0x428(r1)
-mr       r30, r3
-addi     r3, r30, 0x1c
-bl       loadSettingFile__Q33ebi5title10TParamBaseFP10JKRArchivePc
-lwz      r3, 0x18(r30)
-mr       r4, r31
-bl       setArchive__Q43ebi5title6Pikmin9TAnimatorFP10JKRArchive
-lwz      r12, 0(r31)
-lis      r4, lbl_80497488@ha
-mr       r3, r31
-lwz      r12, 0x14(r12)
-addi     r4, r4, lbl_80497488@l
-mtctr    r12
-bctrl
-cmplwi   r3, 0
-beq      lbl_803E438C
-mr       r4, r3
-addi     r3, r1, 8
-li       r5, -1
-bl       __ct__9RamStreamFPvi
-li       r0, 1
-cmpwi    r0, 1
-stw      r0, 0x14(r1)
-bne      lbl_803E4350
-li       r0, 0
-stw      r0, 0x41c(r1)
-
-lbl_803E4350:
-addi     r3, r30, 0x2d0
-addi     r4, r1, 8
-bl       read__10ParametersFR6Stream
-addi     r3, r30, 0x420
-addi     r4, r1, 8
-bl       read__10ParametersFR6Stream
-addi     r3, r30, 0x570
-addi     r4, r1, 8
-bl       read__10ParametersFR6Stream
-addi     r3, r30, 0x6c0
-addi     r4, r1, 8
-bl       read__10ParametersFR6Stream
-addi     r3, r30, 0x810
-addi     r4, r1, 8
-bl       read__10ParametersFR6Stream
-
-lbl_803E438C:
-lwz      r0, 0x434(r1)
-lwz      r31, 0x42c(r1)
-lwz      r30, 0x428(r1)
-mtlr     r0
-addi     r1, r1, 0x430
-blr
-	*/
+	mParams.loadSettingFile(arc, "param/param_pikmin.txt");
+	((TAnimator*)mModelData)->setArchive(arc);
+	void* file = arc->getResource("param/param_boid.txt");
+    if (file != nullptr) {
+        RamStream stream(file, -1);
+        stream.resetPosition(STREAM_MODE_TEXT, true);
+        mBoidParamMgr.mParams[0].read(stream);
+        mBoidParamMgr.mParams[1].read(stream);
+        mBoidParamMgr.mParams[2].read(stream);
+        mBoidParamMgr.mParams[3].read(stream);
+        mBoidParamMgr.mParams[4].read(stream);
+    }
 }
 
 /*
@@ -731,89 +563,21 @@ blr
  */
 void Pikmin::TMgr::initUnit()
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-stw      r0, 0x24(r1)
-stw      r31, 0x1c(r1)
-li       r31, 0
-stw      r30, 0x18(r1)
-li       r30, 0
-stw      r29, 0x14(r1)
-mr       r29, r3
-
-lbl_803E43C8:
-lwz      r0, 0x2ac(r29)
-mr       r4, r29
-li       r5, 0
-add      r3, r0, r31
-bl       init__Q43ebi5title6Pikmin5TUnitFPQ43ebi5title6Pikmin4TMgrl
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x64
-blt      lbl_803E43C8
-li       r30, 0x64
-li       r31, 0x3b60
-
-lbl_803E43F4:
-lwz      r0, 0x2ac(r29)
-mr       r4, r29
-li       r5, 1
-add      r3, r0, r31
-bl       init__Q43ebi5title6Pikmin5TUnitFPQ43ebi5title6Pikmin4TMgrl
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0xc8
-blt      lbl_803E43F4
-li       r30, 0xc8
-li       r31, 0x76c0
-
-lbl_803E4420:
-lwz      r0, 0x2ac(r29)
-mr       r4, r29
-li       r5, 2
-add      r3, r0, r31
-bl       init__Q43ebi5title6Pikmin5TUnitFPQ43ebi5title6Pikmin4TMgrl
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x12c
-blt      lbl_803E4420
-lis      r3, 0x0000B220@ha
-li       r30, 0x12c
-addi     r31, r3, 0x0000B220@l
-
-lbl_803E4450:
-lwz      r0, 0x2ac(r29)
-mr       r4, r29
-li       r5, 3
-add      r3, r0, r31
-bl       init__Q43ebi5title6Pikmin5TUnitFPQ43ebi5title6Pikmin4TMgrl
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x190
-blt      lbl_803E4450
-lis      r3, 0x0000ED80@ha
-li       r30, 0x190
-addi     r31, r3, 0x0000ED80@l
-
-lbl_803E4480:
-lwz      r0, 0x2ac(r29)
-mr       r4, r29
-li       r5, 4
-add      r3, r0, r31
-bl       init__Q43ebi5title6Pikmin5TUnitFPQ43ebi5title6Pikmin4TMgrl
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x1f4
-blt      lbl_803E4480
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+    for (int i = 0; i<100; i++) {
+        (pUnits[i]).init(this, 0);
+    }
+    for (int i = 100; i<200; i++) {
+        (pUnits[i]).init(this, 1);
+    }
+    for (int i = 200; i<300; i++) {
+        (pUnits[i]).init(this, 2);
+    }
+    for (int i = 300; i<400; i++) {
+        (pUnits[i]).init(this, 3);
+    }
+    for (int i = 400; i<500; i++) {
+        (pUnits[i]).init(this, 4);
+    }
 }
 
 /*
@@ -823,124 +587,34 @@ blr
  */
 void Pikmin::TMgr::update()
 {
-	/*
-stwu     r1, -0x30(r1)
-mflr     r0
-stw      r0, 0x34(r1)
-stw      r31, 0x2c(r1)
-mr       r31, r3
-stw      r30, 0x28(r1)
-stw      r29, 0x24(r1)
-lwz      r3, 0x980(r3)
-cmplwi   r3, 0
-beq      lbl_803E44F0
-addi     r0, r3, -1
-stw      r0, 0x980(r31)
+    if (mCounter != 0) {
+        mCounter--;
+    }
 
-lbl_803E44F0:
-lwz      r3, 0x2cc(r31)
-lwz      r0, 0x2c8(r31)
-lwz      r6, 0x984(r31)
-mulli    r3, r3, 0x150
-cmplwi   r6, 0
-mulli    r0, r0, 0x150
-add      r5, r31, r3
-add      r4, r31, r0
-beq      lbl_803E4548
-lwz      r3, 0x980(r31)
-lis      r0, 0x4330
-stw      r0, 8(r1)
-lfd      f2, lbl_8051FC98@sda21(r2)
-stw      r3, 0xc(r1)
-lfd      f0, 8(r1)
-stw      r6, 0x14(r1)
-fsubs    f1, f0, f2
-stw      r0, 0x10(r1)
-lfd      f0, 0x10(r1)
-fsubs    f0, f0, f2
-fdivs    f0, f1, f0
-b        lbl_803E454C
+    // Annoying float + double arithmetic
 
-lbl_803E4548:
-lfs      f0, lbl_8051FC60@sda21(r2)
 
-lbl_803E454C:
-lfs      f1, lbl_8051FC90@sda21(r2)
-mr       r3, r31
-lfs      f2, 0x344(r4)
-fsubs    f0, f1, f0
-lfs      f3, 0x344(r5)
-fsubs    f1, f1, f0
-fmuls    f2, f0, f2
-fmadds   f2, f1, f3, f2
-stfs     f2, 0x960(r31)
-lfs      f2, 0x31c(r4)
-lfs      f3, 0x31c(r5)
-fmuls    f2, f0, f2
-fmadds   f2, f1, f3, f2
-stfs     f2, 0x964(r31)
-lfs      f2, 0x2f4(r4)
-lfs      f3, 0x2f4(r5)
-fmuls    f2, f0, f2
-fmadds   f2, f1, f3, f2
-stfs     f2, 0x968(r31)
-lfs      f2, 0x3bc(r4)
-lfs      f3, 0x3bc(r5)
-fmuls    f2, f0, f2
-fmadds   f2, f1, f3, f2
-stfs     f2, 0x96c(r31)
-lfs      f2, 0x394(r4)
-lfs      f3, 0x394(r5)
-fmuls    f2, f0, f2
-fmadds   f2, f1, f3, f2
-stfs     f2, 0x970(r31)
-lfs      f2, 0x36c(r4)
-lfs      f3, 0x36c(r5)
-fmuls    f2, f0, f2
-fmadds   f2, f1, f3, f2
-stfs     f2, 0x974(r31)
-lfs      f2, 0x40c(r4)
-lfs      f3, 0x40c(r5)
-fmuls    f2, f0, f2
-fmadds   f2, f1, f3, f2
-stfs     f2, 0x978(r31)
-lfs      f2, 0x3e4(r4)
-lfs      f3, 0x3e4(r5)
-fmuls    f0, f0, f2
-fmadds   f0, f1, f3, f0
-stfs     f0, 0x97c(r31)
-bl       updateCalcBoid___Q43ebi5title6Pikmin4TMgrFv
-li       r29, 0
-li       r30, 0
 
-lbl_803E4608:
-lwz      r0, 0x2ac(r31)
-add      r3, r0, r30
-bl       update__Q43ebi5title6Pikmin5TUnitFv
-addi     r29, r29, 1
-addi     r30, r30, 0x98
-cmpwi    r29, 0x1f4
-blt      lbl_803E4608
-li       r29, 0
-li       r30, 0
 
-lbl_803E462C:
-lwz      r0, 0x2ac(r31)
-lwz      r3, titleMgr__Q23ebi5title@sda21(r13)
-add      r4, r0, r30
-bl       inField__Q33ebi5title9TTitleMgrFPQ33ebi5title8TObjBase
-addi     r29, r29, 1
-addi     r30, r30, 0x98
-cmpwi    r29, 0x1f4
-blt      lbl_803E462C
-lwz      r0, 0x34(r1)
-lwz      r31, 0x2c(r1)
-lwz      r30, 0x28(r1)
-lwz      r29, 0x24(r1)
-mtlr     r0
-addi     r1, r1, 0x30
-blr
-	*/
+
+
+    /* if (mCounter2 != 0) {
+        u32 var = 0x4430;
+        u32 count = mCounter;
+        u32 count2 = mCounter2;
+
+
+    }
+    else {
+
+    } */
+    updateCalcBoid_();
+    for (int i = 0; i<500; i++) {
+        (pUnits[i]).update();
+    }
+    for (int i = 0; i<500; i++) {
+        titleMgr->inField((TObjBase*)&pUnits[i]);
+    }
 }
 
 
@@ -961,60 +635,20 @@ namespace title {
  */
 void Pikmin::TMgr::forceArriveDest()
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-stw      r0, 0x24(r1)
-stw      r31, 0x1c(r1)
-li       r31, 0
-stw      r30, 0x18(r1)
-li       r30, 0
-stw      r29, 0x14(r1)
-mr       r29, r3
+    for (int i = 0; i<500; i++) {
+        (pUnits[i]).alive();
+    }
+    mBoidParamMgr._1C = mBoidParamMgr._18;
+    mBoidParamMgr._18 = 0;
+    u32 time               = 0.0f / sys->mDeltaTime;
+    mCounter               = time;
+    mCounter2              = time;
+    for (int i = 0; i<500; i++) {
+        TUnit* unit = &pUnits[i];
+        unit->mPos = unit->destPos;
+        unit->startState((Pikmin::TUnit::enumState)1);
 
-lbl_803E4954:
-lwz      r0, 0x2ac(r29)
-add      r3, r0, r31
-bl       alive__Q43ebi5title6Pikmin5TUnitFv
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x1f4
-blt      lbl_803E4954
-lwz      r3, 0x2c8(r29)
-li       r0, 0
-lfs      f1, lbl_8051FC60@sda21(r2)
-stw      r3, 0x2cc(r29)
-stw      r0, 0x2c8(r29)
-lwz      r3, sys@sda21(r13)
-lfs      f0, 0x54(r3)
-fdivs    f1, f1, f0
-bl       __cvt_fp2unsigned
-stw      r3, 0x980(r29)
-li       r30, 0
-li       r31, 0
-stw      r3, 0x984(r29)
-
-lbl_803E49A4:
-lwz      r0, 0x2ac(r29)
-li       r4, 1
-add      r3, r0, r31
-lfs      f0, 0x2c(r3)
-stfs     f0, 4(r3)
-lfs      f0, 0x30(r3)
-stfs     f0, 8(r3)
-bl startState__Q43ebi5title6Pikmin5TUnitFQ53ebi5title6Pikmin5TUnit9enumState
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x1f4
-blt      lbl_803E49A4
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+    }
 }
 
 /*
@@ -1024,44 +658,15 @@ blr
  */
 void Pikmin::TMgr::assemble()
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-lfs      f1, lbl_8051FC70@sda21(r2)
-stw      r0, 0x24(r1)
-li       r0, 0
-stw      r31, 0x1c(r1)
-stw      r30, 0x18(r1)
-stw      r29, 0x14(r1)
-mr       r29, r3
-lwz      r3, 0x2c8(r3)
-stw      r3, 0x2cc(r29)
-stw      r0, 0x2c8(r29)
-lwz      r3, sys@sda21(r13)
-lfs      f0, 0x54(r3)
-fdivs    f1, f1, f0
-bl       __cvt_fp2unsigned
-stw      r3, 0x980(r29)
-li       r30, 0
-li       r31, 0
-stw      r3, 0x984(r29)
-
-lbl_803E4A40:
-lwz      r0, 0x2ac(r29)
-add      r3, r0, r31
-bl       goDestination__Q43ebi5title6Pikmin5TUnitFv
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x1f4
-blt      lbl_803E4A40
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+    mBoidParamMgr._1C = mBoidParamMgr._18;
+    mBoidParamMgr._18 = 0;
+    u32 time               = 2.0f / sys->mDeltaTime;
+    mCounter               = time;
+    mCounter2              = time;
+    for (int i = 0; i<500; i++) {
+        TUnit* unit = &pUnits[i];
+        unit->goDestination();
+    }
 }
 
 /*
@@ -1071,44 +676,15 @@ blr
  */
 void Pikmin::TMgr::quickAssemble()
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-lfs      f1, lbl_8051FC90@sda21(r2)
-stw      r0, 0x24(r1)
-li       r0, 1
-stw      r31, 0x1c(r1)
-stw      r30, 0x18(r1)
-stw      r29, 0x14(r1)
-mr       r29, r3
-lwz      r3, 0x2c8(r3)
-stw      r3, 0x2cc(r29)
-stw      r0, 0x2c8(r29)
-lwz      r3, sys@sda21(r13)
-lfs      f0, 0x54(r3)
-fdivs    f1, f1, f0
-bl       __cvt_fp2unsigned
-stw      r3, 0x980(r29)
-li       r30, 0
-li       r31, 0
-stw      r3, 0x984(r29)
-
-lbl_803E4AC8:
-lwz      r0, 0x2ac(r29)
-add      r3, r0, r31
-bl       goDestination__Q43ebi5title6Pikmin5TUnitFv
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x1f4
-blt      lbl_803E4AC8
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+    mBoidParamMgr._1C = mBoidParamMgr._18;
+    mBoidParamMgr._18 = 1;
+    u32 time               = 1.0f / sys->mDeltaTime;
+    mCounter               = time;
+    mCounter2              = time;
+    for (int i = 0; i<500; i++) {
+        TUnit* unit = &pUnits[i];
+        unit->goDestination();
+    }
 }
 
 /*
@@ -1116,48 +692,17 @@ blr
  * Address:	803E4B00
  * Size:	000090
  */
-void Pikmin::TMgr::startBoid1(float)
+void Pikmin::TMgr::startBoid1(f32 arg)
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-lfs      f0, lbl_8051FCC0@sda21(r2)
-stw      r0, 0x24(r1)
-li       r0, 2
-fmuls    f1, f1, f0
-stw      r31, 0x1c(r1)
-stw      r30, 0x18(r1)
-stw      r29, 0x14(r1)
-mr       r29, r3
-lwz      r3, 0x2c8(r3)
-stw      r3, 0x2cc(r29)
-stw      r0, 0x2c8(r29)
-lwz      r3, sys@sda21(r13)
-lfs      f0, 0x54(r3)
-fdivs    f1, f1, f0
-bl       __cvt_fp2unsigned
-stw      r3, 0x980(r29)
-li       r30, 0
-li       r31, 0
-stw      r3, 0x984(r29)
-
-lbl_803E4B54:
-lwz      r0, 0x2ac(r29)
-li       r4, 4
-add      r3, r0, r31
-bl startState__Q43ebi5title6Pikmin5TUnitFQ53ebi5title6Pikmin5TUnit9enumState
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x1f4
-blt      lbl_803E4B54
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+    mBoidParamMgr._1C = mBoidParamMgr._18;
+    mBoidParamMgr._18 = 2;
+    u32 time               = (arg * 0.5f)  / sys->mDeltaTime;
+    mCounter               = time;
+    mCounter2              = time;
+    for (int i = 0; i<500; i++) {
+        TUnit* unit = &pUnits[i];
+        unit->startState((Pikmin::TUnit::enumState)4);
+    }
 }
 
 /*
@@ -1165,48 +710,18 @@ blr
  * Address:	803E4B90
  * Size:	000090
  */
-void Pikmin::TMgr::startBoid2(float)
+void Pikmin::TMgr::startBoid2(f32 arg)
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-lfs      f0, lbl_8051FCC0@sda21(r2)
-stw      r0, 0x24(r1)
-li       r0, 3
-fmuls    f1, f1, f0
-stw      r31, 0x1c(r1)
-stw      r30, 0x18(r1)
-stw      r29, 0x14(r1)
-mr       r29, r3
-lwz      r3, 0x2c8(r3)
-stw      r3, 0x2cc(r29)
-stw      r0, 0x2c8(r29)
-lwz      r3, sys@sda21(r13)
-lfs      f0, 0x54(r3)
-fdivs    f1, f1, f0
-bl       __cvt_fp2unsigned
-stw      r3, 0x980(r29)
-li       r30, 0
-li       r31, 0
-stw      r3, 0x984(r29)
+    mBoidParamMgr._1C = mBoidParamMgr._18;
+    mBoidParamMgr._18 = 3;
+    u32 time               = (arg * 0.5f)  / sys->mDeltaTime;
+    mCounter               = time;
+    mCounter2              = time;
+    for (int i = 0; i<500; i++) {
+        TUnit* unit = &pUnits[i];
+        unit->startState((Pikmin::TUnit::enumState)4);
+    }
 
-lbl_803E4BE4:
-lwz      r0, 0x2ac(r29)
-li       r4, 4
-add      r3, r0, r31
-bl startState__Q43ebi5title6Pikmin5TUnitFQ53ebi5title6Pikmin5TUnit9enumState
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x1f4
-blt      lbl_803E4BE4
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
 }
 
 /*
@@ -1214,48 +729,18 @@ blr
  * Address:	803E4C20
  * Size:	000090
  */
-void Pikmin::TMgr::startBoid3(float)
+void Pikmin::TMgr::startBoid3(f32 arg)
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-lfs      f0, lbl_8051FCC0@sda21(r2)
-stw      r0, 0x24(r1)
-li       r0, 4
-fmuls    f1, f1, f0
-stw      r31, 0x1c(r1)
-stw      r30, 0x18(r1)
-stw      r29, 0x14(r1)
-mr       r29, r3
-lwz      r3, 0x2c8(r3)
-stw      r3, 0x2cc(r29)
-stw      r0, 0x2c8(r29)
-lwz      r3, sys@sda21(r13)
-lfs      f0, 0x54(r3)
-fdivs    f1, f1, f0
-bl       __cvt_fp2unsigned
-stw      r3, 0x980(r29)
-li       r30, 0
-li       r31, 0
-stw      r3, 0x984(r29)
+    mBoidParamMgr._1C = mBoidParamMgr._18;
+    mBoidParamMgr._18 = 4;
+    u32 time               = (arg * 0.5f)  / sys->mDeltaTime;
+    mCounter               = time;
+    mCounter2              = time;
+    for (int i = 0; i<500; i++) {
+        TUnit* unit = &pUnits[i];
+        unit->startState((Pikmin::TUnit::enumState)4);
+    }
 
-lbl_803E4C74:
-lwz      r0, 0x2ac(r29)
-li       r4, 4
-add      r3, r0, r31
-bl startState__Q43ebi5title6Pikmin5TUnitFQ53ebi5title6Pikmin5TUnit9enumState
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x1f4
-blt      lbl_803E4C74
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
 }
 
 /*
@@ -2128,8 +1613,7 @@ blr
  */
 void Pikmin::TUnit::alive()
 {
-	// Generated from stb r0, 0x94(r3)
-	//_94 = 0;
+	isDead = false;
 }
 
 /*
@@ -2139,13 +1623,7 @@ void Pikmin::TUnit::alive()
  */
 bool Pikmin::TUnit::isCalc()
 {
-	/*
-lwz      r3, 0x84(r3)
-neg      r0, r3
-or       r0, r0, r3
-srwi     r3, r0, 0x1f
-blr
-	*/
+	return  (bool) ( _84 );
 }
 
 /*
@@ -3365,6 +2843,12 @@ blr
  */
 void Pikmin::TMgr::setStartPos(Vector2f* pos) 
 {
+    for (int i = 0; i<500; i++) {
+        TUnit* unit = &pUnits[i];
+        //unit->mPos = Vector2f(pos[i].x, pos[i].y);
+        unit->mPos.x = pos[i].x;
+        unit->mPos.y = pos[i].y;
+    }
 } 
 
 /*
@@ -3374,6 +2858,12 @@ void Pikmin::TMgr::setStartPos(Vector2f* pos)
  */
 void Pikmin::TMgr::setDestPos(Vector2f* pos) 
 {
+    for (int i = 0; i<500; i++) {
+        TUnit* unit = &pUnits[i];
+        //unit->mPos = Vector2f(pos[i].x, pos[i].y);
+        unit->destPos.x = pos[i].x;
+        unit->destPos.y = pos[i].y;
+    }
 } 
 
 } // namespace title
@@ -3655,154 +3145,17 @@ blr
  * Address:	803E6BDC
  * Size:	000238
  */
-Pikmin::TBoidParam::TBoidParam()
+Pikmin::TBoidParam::TBoidParam() 
+    : Parameters(nullptr, "TTitleStateParameters")
+    , mTurnMag(this, 'tsp0', "向き変えベクトルの大きさ", 0.2f, 0.0f, 10.0f)
+    , mMaxTurnVec(this, 'tsp1', "向き変えベクトル最大", 0.4f, 0.0f, 10.0f)
+    , mMaxWalkSpeed(this, 'tsp2', "向き変えベクトル最大", 2.0f, 0.0f, 10.0f)
+    , mBoidColl(this, 'tsp5', "BOID衝突回避係数", 800.0f, 0.0f, 10000.0f)
+    , mBoidSpeedMatch(this, 'tsp6', "BOID速度合わせ係数", 4.5f, 0.0f, 100.0f)
+    , mBoidCenter(this, 'tsp7', "BOID中心集合係数", 0.005f, 0.0f, 100.0f)
+    , mBoidNeighbor(this, 'tsp8', "BOID個体の近所サーチ半径", 30.0f, 0.0f, 500.0f)
+    , mGroupCenter(this, 'tsp9', "群の中心と個体の目的地の割合", 0.0f, 0.0f, 1.0f)
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-extsh.   r0, r4
-lis      r4, lbl_80497158@ha
-stw      r31, 0xc(r1)
-addi     r31, r4, lbl_80497158@l
-stw      r30, 8(r1)
-mr       r30, r3
-beq      lbl_803E6C0C
-addi     r0, r30, 0x14c
-stw      r0, 0(r30)
-
-lbl_803E6C0C:
-li       r0, 0
-lis      r5, 0x74737030@ha
-stw      r0, 4(r30)
-addi     r0, r31, 0x30
-mr       r4, r30
-addi     r3, r30, 0xc
-stw      r0, 8(r30)
-addi     r5, r5, 0x74737030@l
-addi     r6, r31, 0x48
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x74737031@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FC64@sda21(r2)
-stw      r0, 0xc(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x34
-stfs     f0, 0x24(r30)
-addi     r5, r5, 0x74737031@l
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r6, r31, 0x64
-stfs     f1, 0x2c(r30)
-stfs     f0, 0x30(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x74737032@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FC6C@sda21(r2)
-stw      r0, 0x34(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x5c
-stfs     f0, 0x4c(r30)
-addi     r5, r5, 0x74737032@l
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r6, r31, 0x7c
-stfs     f1, 0x54(r30)
-stfs     f0, 0x58(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x74737035@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FC70@sda21(r2)
-stw      r0, 0x5c(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x84
-stfs     f0, 0x74(r30)
-addi     r5, r5, 0x74737035@l
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r6, r31, 0x8c
-stfs     f1, 0x7c(r30)
-stfs     f0, 0x80(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x74737036@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FC74@sda21(r2)
-stw      r0, 0x84(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0xac
-stfs     f0, 0x9c(r30)
-addi     r5, r5, 0x74737036@l
-lfs      f0, lbl_8051FC78@sda21(r2)
-addi     r6, r31, 0xa0
-stfs     f1, 0xa4(r30)
-stfs     f0, 0xa8(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x74737037@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FC7C@sda21(r2)
-stw      r0, 0xac(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0xd4
-stfs     f0, 0xc4(r30)
-addi     r5, r5, 0x74737037@l
-lfs      f0, lbl_8051FC80@sda21(r2)
-addi     r6, r31, 0xb4
-stfs     f1, 0xcc(r30)
-stfs     f0, 0xd0(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x74737038@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FC84@sda21(r2)
-stw      r0, 0xd4(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0xfc
-stfs     f0, 0xec(r30)
-addi     r5, r5, 0x74737038@l
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r6, r31, 0xc8
-stfs     f1, 0xf4(r30)
-stfs     f0, 0xf8(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x74737039@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FC88@sda21(r2)
-stw      r0, 0xfc(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x124
-stfs     f0, 0x114(r30)
-addi     r5, r5, 0x74737039@l
-lfs      f0, lbl_8051FC8C@sda21(r2)
-addi     r6, r31, 0xe4
-stfs     f1, 0x11c(r30)
-stfs     f0, 0x120(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FC90@sda21(r2)
-stw      r0, 0x124(r30)
-mr       r3, r30
-stfs     f1, 0x13c(r30)
-stfs     f1, 0x144(r30)
-stfs     f0, 0x148(r30)
-lwz      r31, 0xc(r1)
-lwz      r30, 8(r1)
-lwz      r0, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
 }
 
 /*
@@ -3885,275 +3238,24 @@ blr
  * Size:	000418
  */
 Pikmin::TParam::TParam()
+    : mIntScale(this, 'pk00', "海外版スケール", 2.4f, 0.0f, 10.0f)
+    , mJpnScale(this, 'pk99', "日本語版スケール", 2.6f, 0.0f, 10.0f)
+    , mCollRadius(this, 'pk01', "コリジョン半径", 5.0f, 0.0f, 100.0f)
+    , mStopDist(this, 'pk02', "停止距離", 20.0f, 0.0f, 100.0f)
+    , mConvDist(this, 'pk03', "収束距離", 50.0f, 0.0f, 100.0f)
+    , mShadowX(this, 'pk05', "影ずらしX", 5.0f, 0.0f, 100.0f)
+    , mShadowZ(this, 'pk06', "影ずらしZ", 5.0f, 0.0f, 100.0f)
+    , mAnimSpeedWalk(this, 'pk07', "アニメスピード歩く（速度比例）", 0.5f, 0.0f, 10.0f)
+    , mAnimSpeedStyle(this, 'pk08', "アニメスピード風", 0.5f, 0.0f, 10.0f)
+    , mAnimMaxWaitTime(this, 'pk10', "アニメスピードWAIT最大", 0.5f, 0.0f, 10.0f)
+    , mAnimMinWaitTime(this, 'pk09', "アニメスピードWAIT最小", 0.0f, 0.0f, 10.0f)
+    , mKogane(this, 'pk12', "コガネ好き好き係数", 5.0f, -10.0f, 10.0f)
+    , mChappyRun(this, 'pk13', "チャッピーから逃げる係数", -5.0f, -10.0f, 10.0f)
+    , mChaseGiveUp(this, 'pk14', "追いかけあきらめ半径", 400.0f, -10.0f, 500.0f)
+    , mWindTimer(this, 'pk14', "風タイマー(秒)", 6.0f, 0.0f, 10.0f)
+    , mDistSpeedFactor(this, 'pk14', "距離比例速度係数", 0.2f, 0.0f, 1.0f)
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-extsh.   r0, r4
-lis      r4, lbl_80497158@ha
-stw      r31, 0xc(r1)
-addi     r31, r4, lbl_80497158@l
-stw      r30, 8(r1)
-mr       r30, r3
-beq      lbl_803E6F40
-addi     r0, r30, 0x28c
-stw      r0, 0(r30)
-
-lbl_803E6F40:
-li       r0, 0
-lis      r5, 0x706B3030@ha
-stw      r0, 4(r30)
-addi     r0, r2, lbl_8051FCA4@sda21
-mr       r4, r30
-addi     r3, r30, 0xc
-stw      r0, 8(r30)
-addi     r5, r5, 0x706B3030@l
-addi     r6, r31, 0x1e4
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3939@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCAC@sda21(r2)
-stw      r0, 0xc(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x34
-stfs     f0, 0x24(r30)
-addi     r5, r5, 0x706B3939@l
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r6, r31, 0x1f4
-stfs     f1, 0x2c(r30)
-stfs     f0, 0x30(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3031@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCB0@sda21(r2)
-stw      r0, 0x34(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x5c
-stfs     f0, 0x4c(r30)
-addi     r5, r5, 0x706B3031@l
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r6, r31, 0x208
-stfs     f1, 0x54(r30)
-stfs     f0, 0x58(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3032@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCB4@sda21(r2)
-stw      r0, 0x5c(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x84
-stfs     f0, 0x74(r30)
-addi     r5, r5, 0x706B3032@l
-lfs      f0, lbl_8051FC80@sda21(r2)
-addi     r6, r31, 0x218
-stfs     f1, 0x7c(r30)
-stfs     f0, 0x80(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3033@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCB8@sda21(r2)
-stw      r0, 0x84(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0xac
-stfs     f0, 0x9c(r30)
-addi     r5, r5, 0x706B3033@l
-lfs      f0, lbl_8051FC80@sda21(r2)
-addi     r6, r31, 0x224
-stfs     f1, 0xa4(r30)
-stfs     f0, 0xa8(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3035@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCBC@sda21(r2)
-stw      r0, 0xac(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0xd4
-stfs     f0, 0xc4(r30)
-addi     r5, r5, 0x706B3035@l
-lfs      f0, lbl_8051FC80@sda21(r2)
-addi     r6, r31, 0x230
-stfs     f1, 0xcc(r30)
-stfs     f0, 0xd0(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3036@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCB4@sda21(r2)
-stw      r0, 0xd4(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0xfc
-stfs     f0, 0xec(r30)
-addi     r5, r5, 0x706B3036@l
-lfs      f0, lbl_8051FC80@sda21(r2)
-addi     r6, r31, 0x23c
-stfs     f1, 0xf4(r30)
-stfs     f0, 0xf8(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3037@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCB4@sda21(r2)
-stw      r0, 0xfc(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x124
-stfs     f0, 0x114(r30)
-addi     r5, r5, 0x706B3037@l
-lfs      f0, lbl_8051FC80@sda21(r2)
-addi     r6, r31, 0x248
-stfs     f1, 0x11c(r30)
-stfs     f0, 0x120(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3038@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCC0@sda21(r2)
-stw      r0, 0x124(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x14c
-stfs     f0, 0x13c(r30)
-addi     r5, r5, 0x706B3038@l
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r6, r31, 0x268
-stfs     f1, 0x144(r30)
-stfs     f0, 0x148(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3130@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCC0@sda21(r2)
-stw      r0, 0x14c(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x174
-stfs     f0, 0x164(r30)
-addi     r5, r5, 0x706B3130@l
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r6, r31, 0x27c
-stfs     f1, 0x16c(r30)
-stfs     f0, 0x170(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3039@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCC0@sda21(r2)
-stw      r0, 0x174(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x19c
-stfs     f0, 0x18c(r30)
-addi     r5, r5, 0x706B3039@l
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r6, r31, 0x294
-stfs     f1, 0x194(r30)
-stfs     f0, 0x198(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3132@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f1, lbl_8051FC60@sda21(r2)
-stw      r0, 0x19c(r30)
-mr       r4, r30
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r3, r30, 0x1c4
-stfs     f1, 0x1b4(r30)
-addi     r5, r5, 0x706B3132@l
-addi     r6, r31, 0x2ac
-stfs     f1, 0x1bc(r30)
-stfs     f0, 0x1c0(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3133@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCB4@sda21(r2)
-stw      r0, 0x1c4(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FCC4@sda21(r2)
-addi     r3, r30, 0x1ec
-stfs     f0, 0x1dc(r30)
-addi     r5, r5, 0x706B3133@l
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r6, r31, 0x2c0
-stfs     f1, 0x1e4(r30)
-stfs     f0, 0x1e8(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3134@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCC8@sda21(r2)
-stw      r0, 0x1ec(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FCC4@sda21(r2)
-addi     r3, r30, 0x214
-stfs     f0, 0x204(r30)
-addi     r5, r5, 0x706B3134@l
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r6, r31, 0x2dc
-stfs     f1, 0x20c(r30)
-stfs     f0, 0x210(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3131@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCCC@sda21(r2)
-stw      r0, 0x214(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x23c
-stfs     f0, 0x22c(r30)
-addi     r5, r5, 0x706B3131@l
-lfs      f0, lbl_8051FC8C@sda21(r2)
-addi     r6, r31, 0x2f4
-stfs     f1, 0x234(r30)
-stfs     f0, 0x238(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lis      r5, 0x706B3034@ha
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f0, lbl_8051FCD0@sda21(r2)
-stw      r0, 0x23c(r30)
-mr       r4, r30
-lfs      f1, lbl_8051FC60@sda21(r2)
-addi     r3, r30, 0x264
-stfs     f0, 0x254(r30)
-addi     r5, r5, 0x706B3034@l
-lfs      f0, lbl_8051FC68@sda21(r2)
-addi     r6, r31, 0x304
-stfs     f1, 0x25c(r30)
-stfs     f0, 0x260(r30)
-bl       __ct__8BaseParmFP10ParametersUlPc
-lis      r3, "__vt__7Parm<f>"@ha
-lfs      f2, lbl_8051FC64@sda21(r2)
-addi     r0, r3, "__vt__7Parm<f>"@l
-lfs      f1, lbl_8051FC60@sda21(r2)
-stw      r0, 0x264(r30)
-mr       r3, r30
-lfs      f0, lbl_8051FC90@sda21(r2)
-stfs     f2, 0x27c(r30)
-stfs     f1, 0x284(r30)
-stfs     f0, 0x288(r30)
-lwz      r31, 0xc(r1)
-lwz      r30, 8(r1)
-lwz      r0, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
 }
-
 /*
  * --INFO--
  * Address:	803E7328

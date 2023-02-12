@@ -6,6 +6,9 @@
 #include "ebi/Geometry.h"
 #include "ebi/E3DGraph.h"
 #include "ebi/title/TObjects.h"
+#include "Parameters.h"
+#include "BaseParm.h"
+#include "JSystem/J3D/J3DFrameCtrl.h"
 
 struct JKRArchive;
 
@@ -15,12 +18,57 @@ struct TObjBase;
 
 namespace Pikmin {
 struct TMgr;
-// Tentative, will be fixed as I work through ebiP2TitlePikmin.cpp
 
 struct TParam : public TParamBase {
+		/*
+	* --INFO--
+	* Address:	803E6F10
+	* Size:	000418
+	*/
 	TParam();
 
 	// _00-_0C = TParamBase
+	Parm<f32>  mIntScale; // _0C 海外版スケール
+	Parm<f32>  mJpnScale; // _34 日本語版スケール
+	Parm<f32>  mCollRadius; // _5C コリジョン半径
+	Parm<f32>  mStopDist; // _84 停止距離
+	Parm<f32>  mConvDist; // _AC 収束距離
+	Parm<f32>  mShadowX; // _D4 影ずらしX
+	Parm<f32>  mShadowZ; // _FC 影ずらしZ
+	Parm<f32>  mAnimSpeedWalk; // _124 アニメスピード歩く（速度比例）
+	Parm<f32>  mAnimSpeedStyle; // _14C アニメスピード風
+	Parm<f32>  mAnimMaxWaitTime; // _174 アニメスピードWAIT最大
+	Parm<f32>  mAnimMinWaitTime; // _19C アニメスピードWAIT最小
+	Parm<f32>  mKogane; // _1C4 コガネ好き好き係数
+	Parm<f32>  mChappyRun; // _1EC チャッピーから逃げる係数
+	Parm<f32>  mChaseGiveUp; // _214 追いかけあきらめ半径
+	Parm<f32>  mWindTimer; // _23C 風タイマー(秒)
+	Parm<f32>  mDistSpeedFactor; // _264 距離比例速度係数
+};
+
+struct TruncatedJ3DModelData {
+	inline TruncatedJ3DModelData()
+	{
+		_00 = 0;
+		mBmd = nullptr;
+		mModelLoaderFlags = 0;
+		mBumpFlag = 0;
+		mBillboardFlag = 0;
+		_14 = 0;
+		_18 = 0;
+		_1C = 0;
+		_20 = 0;
+	}
+	u32 _00; // _00
+	const void* mBmd;                // _04
+	u32 mModelLoaderFlags;           // _08
+	u32 mBumpFlag;                   // _0C
+	u32 mBillboardFlag;              // _10
+	u32 _14;						 // _14 
+	u32 _18;						 // _18 
+	u32 _1C;						 // _1C 
+	u32 _20;						 // _20
+
 };
 
 
@@ -53,22 +101,51 @@ struct TAnimator {
 
 };
 
-struct TBoidParam {
+struct TBoidParam : public Parameters  {
 	TBoidParam();
-
+	
+	// _00-_0C = Parameters
+	Parm<f32> mTurnMag; // _0C
+	Parm<f32> mMaxTurnVec; // _34
+	Parm<f32> mMaxWalkSpeed; // _5C
+	Parm<f32> mBoidColl; // _84
+	Parm<f32> mBoidSpeedMatch; // _AC
+	Parm<f32> mBoidCenter; // _D4
+	Parm<f32> mBoidNeighbor; // _FC
+	Parm<f32> mGroupCenter; // _124
 };
 
 
+/* Structure TBoidParamMgr {
+   0   CNode__vt *   4   __vt   "#AutoInherit"
+   4   CNode *   4   child   "#AutoInherit"
+   8   CNode *   4   parent   "#AutoInherit"
+   12   CNode *   4   owner   "#AutoInherit"
+   16   CNode *   4   head   "#AutoInherit"
+   20   char *   4   name   "#AutoInherit"
+   32   TBoidParam[5]   1680   a5Params_0x20   ""
+}
+Size = 1712   Actual Alignment = 1
+	boidParamMgr_0x2b0	 */
+
 struct TBoidParamMgr : public CNode {
-	TBoidParamMgr();
+	//TBoidParamMgr();
+	inline TBoidParamMgr() : CNode("TBoidParamMgr")
+	{
+	};
 	virtual ~TBoidParamMgr(); // _08 (weak)
 
 	// _00     = VTBL
 	// _00-_18 = CNode
+	u32 _18; // _18
+	u32 _1C; // _1C
+	TBoidParam mParams[5]; // _20
 };
-
+// @size{0x98}
 struct TUnit : public TObjBase {
-	enum enumState { UNKNOWN = 0 };
+	enum enumState { 
+		UNKNOWN = 0 
+		};
 
 	TUnit();
 
@@ -90,6 +167,18 @@ struct TUnit : public TObjBase {
 
 	// _00     = VTBL
 	// _00-_2C = TObjBase
+	Vector2f destPos;  // _2C
+	TMgr* mManager; // _34
+	J3DFrameCtrl _38; // _38
+	J3DFrameCtrl _4C; // _4C
+	f32 _60; 		  // _60
+	f32 _64; 		  // _64
+	u32 unk[7]; // _68
+	s32 _84;		// _84
+	u32 unk2[3];		// _88
+	bool isDead;		// _94
+	bool unk3[2];		// _96
+
 };
 
 struct TMgr : public CNode {
@@ -117,6 +206,15 @@ struct TMgr : public CNode {
 
 	// _00     = VTBL
 	// _00-_18 = CNode
+	J3DModelData*	mModelData;	 // _18
+	TParam	mParams; 			 // _1C
+	TUnit*	pUnits;				 // _2AC
+	TBoidParamMgr mBoidParamMgr; // _2B0
+	f32 unk[8];                  // _960 - Possibly 4 Vector2f variables
+	u32 mCounter;				 // _980
+	u32 mCounter2;				 // _984
+	f32	_998;					 // _998 
+	f32	_99C;					 // _99C 
 };
 } // namespace Pikmin
 } // namespace title
