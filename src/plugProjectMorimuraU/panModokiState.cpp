@@ -960,40 +960,35 @@ void StateCarryEnd::init(EnemyBase* enemy, StateArg* stateArg)
  */
 void StateCarryEnd::exec(EnemyBase* enemy)
 {
-	Vector3f enemyPos;
-	Vector3f enemyPos2;
-	f32 homeX;
-	f32 homeY;
-	f32 homeZ;
 	if (enemy->mHealth <= 0.0f) {
 		transit(enemy, PANMODOKI_Dead, nullptr);
 	} else {
-		enemyPos = enemy->getPosition();
-		homeX = enemy->mHomePosition.x;
-		homeZ = enemy->mHomePosition.z;
+		Vector3f enemyPos = enemy->getPosition();
+		f32 homeX = enemy->mHomePosition.x;
+		f32 homeY = enemy->mHomePosition.y;
+		f32 homeZ = enemy->mHomePosition.z;
 		f32 distX = homeX - enemyPos.x;
-		homeY = enemy->mHomePosition.y;
-		f32 distZ = homeZ - enemyPos.z;
 		f32 distY = homeY - enemyPos.y;
-		if ((2.0 <= FABS(distX)) || (2.0 <= FABS(distZ))) {
-			Parms* parms = static_cast<Parms*>(enemy->mParms);
-			f32 rotSpeed = parms->mGeneral.mRotationalSpeed.mValue;
-			f32 rotAccel = parms->mGeneral.mRotationalAccel.mValue;
-			enemyPos2 = enemy->getPosition();
-			homeX = JMath::atanTable_.atan2_(_10.x - enemyPos2.x, _10.z - enemyPos2.z);
-			homeX = roundAng(homeX);
-			f32 homeX_copy = homeX;
+		f32 distZ = homeZ - enemyPos.z;
+		if ((2.0 >= FABS(distX)) || (2.0 >= FABS(distZ))) {
+			Vector3f homePos = Vector3f(homeX, homeY, homeZ);
+			enemy->onSetPosition(homePos);
+			if ((enemy->mCurAnim->mIsPlaying != FALSE) && (enemy->mCurAnim->mType == KEYEVENT_1)) {
+				transit(enemy, PANMODOKI_Hide, nullptr);
+			}
+		} else {
+			f32 rotSpeed = CG_PARMS(enemy)->mGeneral.mRotationalSpeed.mValue;
+			f32 rotAccel = CG_PARMS(enemy)->mGeneral.mRotationalAccel.mValue;
+			homeX = roundAng(JMath::atanTable_.atan2_(_10.x - enemyPos.x, _10.z - enemyPos.z));
 			f32 enemyFaceDir = enemy->getFaceDir();
-			f32 homeX_copy_copy = homeX_copy;
-			angDist(homeX_copy, enemyFaceDir);
-			homeX_copy_copy = homeX_copy_copy * rotAccel;
-			enemyFaceDir = ((rotSpeed * 0.005555555690079927) * 3.141593);
-			homeX_copy = homeX_copy_copy;
-			if ((enemyFaceDir < FABS(homeX_copy_copy)) && (homeX_copy = enemyFaceDir, homeX_copy_copy <= 0.0)) {
-					homeX_copy = -enemyFaceDir;
+			angDist(homeX, enemyFaceDir);
+			homeX = homeX * rotAccel;
+			enemyFaceDir = rotSpeed * DEG2RAD * PI;
+			if ((enemyFaceDir < FABS(homeX)) && (homeX = enemyFaceDir, homeX <= 0.0)) {
+					homeX = -enemyFaceDir;
 			}
 			enemyFaceDir = enemy->getFaceDir();
-			homeX = roundAng(homeX_copy + enemyFaceDir);
+			homeX = roundAng(homeX + enemyFaceDir);
 			enemy->mFaceDir = homeX;
 			f32 posModX = distX / 2;
 			f32 posModY = distY / 2;
@@ -1005,12 +1000,6 @@ void StateCarryEnd::exec(EnemyBase* enemy)
 			distX = posModX;
 			distY = posModY;
 			distZ = posModZ;
-		} else {
-			Vector3f homePos = Vector3f(homeX, homeY, homeZ);
-			enemy->onSetPosition(homePos);
-			if ((enemy->mCurAnim->mIsPlaying != FALSE) && (enemy->mCurAnim->mType == KEYEVENT_1)) {
-				transit(enemy, PANMODOKI_Hide, nullptr);
-			}
 		}
 		if ((enemy->mCurAnim->mIsPlaying != FALSE) && (enemy->mCurAnim->mType == KEYEVENT_END)) {
 			transit(enemy, PANMODOKI_Hide, nullptr);
