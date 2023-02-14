@@ -960,9 +960,61 @@ void StateCarryEnd::init(EnemyBase* enemy, StateArg* stateArg)
  */
 void StateCarryEnd::exec(EnemyBase* enemy)
 {
+	Vector3f enemyPos;
+	Vector3f enemyPos2;
+	f32 homeX;
+	f32 homeY;
+	f32 homeZ;
 	if (enemy->mHealth <= 0.0f) {
 		transit(enemy, PANMODOKI_Dead, nullptr);
-		return;
+	} else {
+		enemyPos = enemy->getPosition();
+		homeX = enemy->mHomePosition.x;
+		homeZ = enemy->mHomePosition.z;
+		f32 distX = homeX - enemyPos.x;
+		homeY = enemy->mHomePosition.y;
+		f32 distZ = homeZ - enemyPos.z;
+		f32 distY = homeY - enemyPos.y;
+		if ((2.0 <= FABS(distX)) || (2.0 <= FABS(distZ))) {
+			Parms* parms = static_cast<Parms*>(enemy->mParms);
+			f32 rotSpeed = parms->mGeneral.mRotationalSpeed.mValue;
+			f32 rotAccel = parms->mGeneral.mRotationalAccel.mValue;
+			enemyPos2 = enemy->getPosition();
+			homeX = JMath::atanTable_.atan2_(_10.x - enemyPos2.x, _10.z - enemyPos2.z);
+			homeX = roundAng(homeX);
+			f32 homeX_copy = homeX;
+			f32 enemyFaceDir = enemy->getFaceDir();
+			f32 homeX_copy_copy = homeX_copy;
+			angDist(homeX_copy, enemyFaceDir);
+			homeX_copy_copy = homeX_copy_copy * rotAccel;
+			enemyFaceDir = ((rotSpeed * 0.005555555690079927) * 3.141593);
+			homeX_copy = homeX_copy_copy;
+			if ((enemyFaceDir < FABS(homeX_copy_copy)) && (homeX_copy = enemyFaceDir, homeX_copy_copy <= 0.0)) {
+					homeX_copy = -enemyFaceDir;
+			}
+			enemyFaceDir = enemy->getFaceDir();
+			homeX = roundAng(homeX_copy + enemyFaceDir);
+			enemy->mFaceDir = homeX;
+			f32 posModX = distX / 2;
+			f32 posModY = distY / 2;
+			f32 posModZ = distZ / 2;
+			enemy->mRotation.y = enemy->mFaceDir;
+			enemy->mPosition.x = enemy->mPosition.x + posModX;
+			enemy->mPosition.y = enemy->mPosition.y + posModY;
+			enemy->mPosition.z = enemy->mPosition.z + posModZ;
+			distX = posModX;
+			distY = posModY;
+			distZ = posModZ;
+		} else {
+			Vector3f homePos = Vector3f(homeX, homeY, homeZ);
+			enemy->onSetPosition(homePos);
+			if ((enemy->mCurAnim->mIsPlaying != FALSE) && (enemy->mCurAnim->mType == KEYEVENT_1)) {
+				transit(enemy, PANMODOKI_Hide, nullptr);
+			}
+		}
+		if ((enemy->mCurAnim->mIsPlaying != FALSE) && (enemy->mCurAnim->mType == KEYEVENT_END)) {
+			transit(enemy, PANMODOKI_Hide, nullptr);
+		}
 	}
 	/*
 	stwu     r1, -0x90(r1)
