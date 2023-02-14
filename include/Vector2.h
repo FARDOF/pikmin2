@@ -50,8 +50,6 @@ inline f32 _lenVec2D(Vector2f& vec)
 	return _sqrtf(a.y + vec.x * vec.x);
 }
 
-
-
 template <>
 inline f32 Vector2f::length() const
 {

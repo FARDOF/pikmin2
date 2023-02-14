@@ -384,7 +384,7 @@ namespace title {
  */
 /* Pikmin::TBoidParamMgr::TBoidParamMgr()
 {
-	// UNUSED FUNCTION
+    // UNUSED FUNCTION
 } */
 
 /*
@@ -394,7 +394,7 @@ namespace title {
  */
 /* void Pikmin::TBoidParamMgr::startState((ebi::title::Pikmin::TBoidParamMgr::enumState, float))
 {
-	// UNUSED FUNCTION
+    // UNUSED FUNCTION
 } */
 
 /*
@@ -404,7 +404,7 @@ namespace title {
  */
 /* void Pikmin::TBoidParamMgr::update()
 {
-	// UNUSED FUNCTION
+    // UNUSED FUNCTION
 } */
 
 /*
@@ -414,7 +414,7 @@ namespace title {
  */
 /* Pikmin::TAnimator::TAnimator()
 {
-	// UNUSED FUNCTION
+    // UNUSED FUNCTION
 } */
 
 /*
@@ -428,26 +428,26 @@ void Pikmin::TAnimator::setArchive(JKRArchive* arc)
 	file = arc->getResource("pikmin/title_red_piki.bmd");
 	P2ASSERTLINE(0xb0, file);
 	pModelDataRed = J3DModelLoaderDataBase::load(file, 0x40200000);
-	file = arc->getResource("pikmin/title_yellow_piki.bmd");
+	file          = arc->getResource("pikmin/title_yellow_piki.bmd");
 	P2ASSERTLINE(0xba, file);
 	pModelDataYellow = J3DModelLoaderDataBase::load(file, 0x40200000);
-	file = arc->getResource("pikmin/title_blue_piki.bmd");
+	file             = arc->getResource("pikmin/title_blue_piki.bmd");
 	P2ASSERTLINE(0xc4, file);
 	pModelDataBlue = J3DModelLoaderDataBase::load(file, 0x40200000);
-	file = arc->getResource("pikmin/title_black_piki.bmd");
+	file           = arc->getResource("pikmin/title_black_piki.bmd");
 	P2ASSERTLINE(0xce, file);
 	pModelDataPurple = J3DModelLoaderDataBase::load(file, 0x40200000);
-	file = arc->getResource("pikmin/title_white_piki.bmd");
+	file             = arc->getResource("pikmin/title_white_piki.bmd");
 	P2ASSERTLINE(0xd8, file);
 	pModelDataWhite = J3DModelLoaderDataBase::load(file, 0x40200000);
-	file = arc->getResource("pikmin/wait.bck");
+	file            = arc->getResource("pikmin/wait.bck");
 	P2ASSERTLINE(0xe4, file);
-	_14 = (J3DAnmTransform*)J3DAnmLoaderDataBase::load(file);
+	_14  = (J3DAnmTransform*)J3DAnmLoaderDataBase::load(file);
 	file = arc->getResource("pikmin/wave.bck");
 	P2ASSERTLINE(0xe9, file);
-	_18 = (J3DAnmTransform*)J3DAnmLoaderDataBase::load(file);
-	_1C = J3DNewMtxCalcAnm(pModelDataRed->mJointTree.mFlags & 0xf, _14);
-	_20 = J3DUNewMtxCalcAnm(pModelDataRed->mJointTree.mFlags & 0xf, _14, _18, nullptr, nullptr, 0);
+	_18                 = (J3DAnmTransform*)J3DAnmLoaderDataBase::load(file);
+	_1C                 = J3DNewMtxCalcAnm(pModelDataRed->mJointTree.mFlags & 0xf, _14);
+	_20                 = J3DUNewMtxCalcAnm(pModelDataRed->mJointTree.mFlags & 0xf, _14, _18, nullptr, nullptr, 0);
 	J3DModelData* model = pModelDataBlue;
 	model->newSharedDisplayList(0x40000);
 	model->makeSharedDL();
@@ -463,7 +463,6 @@ void Pikmin::TAnimator::setArchive(JKRArchive* arc)
 	model = pModelDataWhite;
 	model->newSharedDisplayList(0x40000);
 	model->makeSharedDL();
-
 }
 
 /*
@@ -473,7 +472,7 @@ void Pikmin::TAnimator::setArchive(JKRArchive* arc)
  */
 /* void Pikmin::TAnimator::setAnmWait(J3DModel*, float)
 {
-	// UNUSED FUNCTION
+    // UNUSED FUNCTION
 } */
 
 /*
@@ -483,7 +482,7 @@ void Pikmin::TAnimator::setArchive(JKRArchive* arc)
  */
 /* void Pikmin::TAnimator::setAnmWave(J3DModel*, float, float, float)
 {
-	// UNUSED FUNCTION
+    // UNUSED FUNCTION
 } */
 
 /*
@@ -493,7 +492,7 @@ void Pikmin::TAnimator::setArchive(JKRArchive* arc)
  */
 /* void Pikmin::TAnimator::newJ3DModel(long)
 {
-	// UNUSED FUNCTION
+    // UNUSED FUNCTION
 } */
 
 /*
@@ -504,36 +503,26 @@ void Pikmin::TAnimator::setArchive(JKRArchive* arc)
 Pikmin::TMgr::TMgr()
     : CNode("PikminMgr")
 {
-    mCounter = 0;
-    mCounter2 = 0;
-    _960 = 0;
-    _964 = 0;
-    _968 = 0;
-    _96C = 0;
-    _970 = 0;
-    _974 = 0;
-    _978 = 0;
-    _97C = 0;
-    u32 time               = 0.0f / sys->mDeltaTime;
-    mCounter = time;
-    mCounter2 = time;
-    mBoidParamMgr._1C = 0;
-    mBoidParamMgr._18 = 0;
-    mModelData = (J3DModelData*) new TruncatedJ3DModelData;
-    pUnits = new TUnit[500];
-    _998 = 0.0f;
-    _99C = 0.0f;
-    add((CNode *)&mBoidParamMgr);
-    
-}
-
-/*
- * --INFO--
- * Address:	803E4258
- * Size:	000074
- */
-Pikmin::TUnit::~TUnit()
-{
+	mCounter          = 0;
+	mCounter2         = 0;
+	_960              = 0;
+	_964              = 0;
+	_968              = 0;
+	_96C              = 0;
+	_970              = 0;
+	_974              = 0;
+	_978              = 0;
+	_97C              = 0;
+	u32 time          = 0.0f / sys->mDeltaTime;
+	mCounter          = time;
+	mCounter2         = time;
+	mBoidParamMgr._1C = 0;
+	mBoidParamMgr._18 = 0;
+	mModelData        = (J3DModelData*)new TruncatedJ3DModelData;
+	pUnits            = new TUnit[500];
+	_998              = 0.0f;
+	_99C              = 0.0f;
+	add((CNode*)&mBoidParamMgr);
 }
 
 /*
@@ -546,15 +535,15 @@ void Pikmin::TMgr::setArchive(JKRArchive* arc)
 	mParams.loadSettingFile(arc, "param/param_pikmin.txt");
 	((TAnimator*)mModelData)->setArchive(arc);
 	void* file = arc->getResource("param/param_boid.txt");
-    if (file != nullptr) {
-        RamStream stream(file, -1);
-        stream.resetPosition(STREAM_MODE_TEXT, true);
-        mBoidParamMgr.mParams[0].read(stream);
-        mBoidParamMgr.mParams[1].read(stream);
-        mBoidParamMgr.mParams[2].read(stream);
-        mBoidParamMgr.mParams[3].read(stream);
-        mBoidParamMgr.mParams[4].read(stream);
-    }
+	if (file != nullptr) {
+		RamStream stream(file, -1);
+		stream.resetPosition(STREAM_MODE_TEXT, true);
+		mBoidParamMgr.mParams[0].read(stream);
+		mBoidParamMgr.mParams[1].read(stream);
+		mBoidParamMgr.mParams[2].read(stream);
+		mBoidParamMgr.mParams[3].read(stream);
+		mBoidParamMgr.mParams[4].read(stream);
+	}
 }
 
 /*
@@ -564,21 +553,21 @@ void Pikmin::TMgr::setArchive(JKRArchive* arc)
  */
 void Pikmin::TMgr::initUnit()
 {
-    for (int i = 0; i<100; i++) {
-        (pUnits[i]).init(this, 0);
-    }
-    for (int i = 100; i<200; i++) {
-        (pUnits[i]).init(this, 1);
-    }
-    for (int i = 200; i<300; i++) {
-        (pUnits[i]).init(this, 2);
-    }
-    for (int i = 300; i<400; i++) {
-        (pUnits[i]).init(this, 3);
-    }
-    for (int i = 400; i<500; i++) {
-        (pUnits[i]).init(this, 4);
-    }
+	for (int i = 0; i < 100; i++) {
+		(pUnits[i]).init(this, 0);
+	}
+	for (int i = 100; i < 200; i++) {
+		(pUnits[i]).init(this, 1);
+	}
+	for (int i = 200; i < 300; i++) {
+		(pUnits[i]).init(this, 2);
+	}
+	for (int i = 300; i < 400; i++) {
+		(pUnits[i]).init(this, 3);
+	}
+	for (int i = 400; i < 500; i++) {
+		(pUnits[i]).init(this, 4);
+	}
 }
 
 /*
@@ -588,46 +577,30 @@ void Pikmin::TMgr::initUnit()
  */
 void Pikmin::TMgr::update()
 {
-    if (mCounter != 0) {
-        mCounter--;
-    }
+	if (mCounter != 0) {
+		mCounter--;
+	}
 
-    // Annoying float + double arithmetic
+	// Annoying float + double arithmetic
 
-
-
-
-
-
-    /* if (mCounter2 != 0) {
-        u32 var = 0x4430;
-        u32 count = mCounter;
-        u32 count2 = mCounter2;
+	/* if (mCounter2 != 0) {
+	    u32 var = 0x4430;
+	    u32 count = mCounter;
+	    u32 count2 = mCounter2;
 
 
-    }
-    else {
+	}
+	else {
 
-    } */
-    updateCalcBoid_();
-    for (int i = 0; i<500; i++) {
-        (pUnits[i]).update();
-    }
-    for (int i = 0; i<500; i++) {
-        titleMgr->inField((TObjBase*)&pUnits[i]);
-    }
+	} */
+	updateCalcBoid_();
+	for (int i = 0; i < 500; i++) {
+		(pUnits[i]).update();
+	}
+	for (int i = 0; i < 500; i++) {
+		titleMgr->inField((TObjBase*)&pUnits[i]);
+	}
 }
-
-
-} // namespace title
-} // namespace ebi
-
-
-
-
-
-namespace ebi {
-namespace title {
 
 /*
  * --INFO--
@@ -636,20 +609,19 @@ namespace title {
  */
 void Pikmin::TMgr::forceArriveDest()
 {
-    for (int i = 0; i<500; i++) {
-        (pUnits[i]).alive();
-    }
-    mBoidParamMgr._1C = mBoidParamMgr._18;
-    mBoidParamMgr._18 = 0;
-    u32 time               = 0.0f / sys->mDeltaTime;
-    mCounter               = time;
-    mCounter2              = time;
-    for (int i = 0; i<500; i++) {
-        TUnit* unit = &pUnits[i];
-        unit->mPos = unit->destPos;
-        unit->startState((Pikmin::TUnit::enumState)1);
-
-    }
+	for (int i = 0; i < 500; i++) {
+		(pUnits[i]).alive();
+	}
+	mBoidParamMgr._1C = mBoidParamMgr._18;
+	mBoidParamMgr._18 = 0;
+	u32 time          = 0.0f / sys->mDeltaTime;
+	mCounter          = time;
+	mCounter2         = time;
+	for (int i = 0; i < 500; i++) {
+		TUnit* unit = &pUnits[i];
+		unit->mPos  = unit->destPos;
+		unit->startState((Pikmin::TUnit::enumState)1);
+	}
 }
 
 /*
@@ -659,15 +631,14 @@ void Pikmin::TMgr::forceArriveDest()
  */
 void Pikmin::TMgr::assemble()
 {
-    mBoidParamMgr._1C = mBoidParamMgr._18;
-    mBoidParamMgr._18 = 0;
-    u32 time               = 2.0f / sys->mDeltaTime;
-    mCounter               = time;
-    mCounter2              = time;
-    for (int i = 0; i<500; i++) {
-        TUnit* unit = &pUnits[i];
-        unit->goDestination();
-    }
+	mBoidParamMgr._1C = mBoidParamMgr._18;
+	mBoidParamMgr._18 = 0;
+	u32 time          = 2.0f / sys->mDeltaTime;
+	mCounter          = time;
+	mCounter2         = time;
+	for (int i = 0; i < 500; i++) {
+		pUnits[i].goDestination();
+	}
 }
 
 /*
@@ -677,15 +648,14 @@ void Pikmin::TMgr::assemble()
  */
 void Pikmin::TMgr::quickAssemble()
 {
-    mBoidParamMgr._1C = mBoidParamMgr._18;
-    mBoidParamMgr._18 = 1;
-    u32 time               = 1.0f / sys->mDeltaTime;
-    mCounter               = time;
-    mCounter2              = time;
-    for (int i = 0; i<500; i++) {
-        TUnit* unit = &pUnits[i];
-        unit->goDestination();
-    }
+	mBoidParamMgr._1C = mBoidParamMgr._18;
+	mBoidParamMgr._18 = 1;
+	u32 time          = 1.0f / sys->mDeltaTime;
+	mCounter          = time;
+	mCounter2         = time;
+	for (int i = 0; i < 500; i++) {
+		pUnits[i].goDestination();
+	}
 }
 
 /*
@@ -695,15 +665,14 @@ void Pikmin::TMgr::quickAssemble()
  */
 void Pikmin::TMgr::startBoid1(f32 arg)
 {
-    mBoidParamMgr._1C = mBoidParamMgr._18;
-    mBoidParamMgr._18 = 2;
-    u32 time               = (arg * 0.5f)  / sys->mDeltaTime;
-    mCounter               = time;
-    mCounter2              = time;
-    for (int i = 0; i<500; i++) {
-        TUnit* unit = &pUnits[i];
-        unit->startState((Pikmin::TUnit::enumState)4);
-    }
+	mBoidParamMgr._1C = mBoidParamMgr._18;
+	mBoidParamMgr._18 = 2;
+	u32 time          = (arg / 2) / sys->mDeltaTime;
+	mCounter          = time;
+	mCounter2         = time;
+	for (int i = 0; i < 500; i++) {
+		pUnits[i].startState((Pikmin::TUnit::enumState)4);
+	}
 }
 
 /*
@@ -713,16 +682,14 @@ void Pikmin::TMgr::startBoid1(f32 arg)
  */
 void Pikmin::TMgr::startBoid2(f32 arg)
 {
-    mBoidParamMgr._1C = mBoidParamMgr._18;
-    mBoidParamMgr._18 = 3;
-    u32 time               = (arg * 0.5f)  / sys->mDeltaTime;
-    mCounter               = time;
-    mCounter2              = time;
-    for (int i = 0; i<500; i++) {
-        TUnit* unit = &pUnits[i];
-        unit->startState((Pikmin::TUnit::enumState)4);
-    }
-
+	mBoidParamMgr._1C = mBoidParamMgr._18;
+	mBoidParamMgr._18 = 3;
+	u32 time          = (arg / 2) / sys->mDeltaTime;
+	mCounter          = time;
+	mCounter2         = time;
+	for (int i = 0; i < 500; i++) {
+		pUnits[i].startState((Pikmin::TUnit::enumState)4);
+	}
 }
 
 /*
@@ -732,16 +699,14 @@ void Pikmin::TMgr::startBoid2(f32 arg)
  */
 void Pikmin::TMgr::startBoid3(f32 arg)
 {
-    mBoidParamMgr._1C = mBoidParamMgr._18;
-    mBoidParamMgr._18 = 4;
-    u32 time               = (arg * 0.5f)  / sys->mDeltaTime;
-    mCounter               = time;
-    mCounter2              = time;
-    for (int i = 0; i<500; i++) {
-        TUnit* unit = &pUnits[i];
-        unit->startState((Pikmin::TUnit::enumState)4);
-    }
-
+	mBoidParamMgr._1C = mBoidParamMgr._18;
+	mBoidParamMgr._18 = 4;
+	u32 time          = (arg / 2) / sys->mDeltaTime;
+	mCounter          = time;
+	mCounter2         = time;
+	for (int i = 0; i < 500; i++) {
+		pUnits[i].startState((Pikmin::TUnit::enumState)4);
+	}
 }
 
 /*
@@ -751,15 +716,15 @@ void Pikmin::TMgr::startBoid3(f32 arg)
  */
 void Pikmin::TMgr::startWindBlow(ebi::EGEBox2f& box)
 {
-    for (int i = 0; i<500; i++) {
-        TUnit* unit = &pUnits[i];
-        if (unit->isCalc()) {
-            Vector2f unitPos = Vector2f(unit->mPos.x, unit->mPos.y);
-            if (!box.isOut(unitPos)) {
-                (pUnits[i]).startState((Pikmin::TUnit::enumState)3);
-            }
-        }
-    }
+	for (int i = 0; i < 500; i++) {
+		TUnit* unit = &pUnits[i];
+		if (unit->isCalc()) {
+			Vector2f unitPos = Vector2f(unit->mPos.x, unit->mPos.y);
+			if (!box.isOut(unitPos)) {
+				(pUnits[i]).startState((Pikmin::TUnit::enumState)3);
+			}
+		}
+	}
 }
 
 /*
@@ -769,21 +734,10 @@ void Pikmin::TMgr::startWindBlow(ebi::EGEBox2f& box)
  */
 void Pikmin::TMgr::startDemo()
 {
-    int i;
-    for (i = 0; i<500; i++) {
-        TUnit* unit = &pUnits[i];
-        unit->alive();
-    }
-    mBoidParamMgr._1C = mBoidParamMgr._18;
-    mBoidParamMgr._18 = 1;
-    u32 time               = (1.0f)  / sys->mDeltaTime;
-    mCounter               = time;
-    mCounter2              = time;
-    TUnit* unit;
-    for (i = 0; i<500; i++) {
-        unit = &pUnits[i];
-        (unit)->goDestination();
-    }
+	for (int i = 0; i < 500; i++) {
+		pUnits[i].alive();
+	}
+	quickAssemble();
 }
 
 /*
@@ -791,12 +745,11 @@ void Pikmin::TMgr::startDemo()
  * Address:	803E4DF8
  * Size:	00006C
  */
-void Pikmin::TMgr::enemyPushOut(ebi::title::TObjBase* obj) 
+void Pikmin::TMgr::enemyPushOut(ebi::title::TObjBase* obj)
 {
-    for (int i = 0; i<500; i++) {
-        TUnit* unit = &pUnits[i];
-        (unit)->pushOut(obj);
-    }
+	for (int i = 0; i < 500; i++) {
+		pUnits[i].pushOut(obj);
+	}
 }
 
 /*
@@ -804,10 +757,7 @@ void Pikmin::TMgr::enemyPushOut(ebi::title::TObjBase* obj)
  * Address:	803E4E64
  * Size:	0003B8
  */
-void Pikmin::TMgr::updateCalcBoid_()
-{
-
-}
+void Pikmin::TMgr::updateCalcBoid_() { }
 
 /*
  * --INFO--
@@ -815,15 +765,15 @@ void Pikmin::TMgr::updateCalcBoid_()
  * Size:	000070
  */
 bool Pikmin::TMgr::isAssemble()
-{ 
-    
-    for (int i = 0; i<500; i++) {
-        TUnit* unit = &pUnits[i];
-        if (!(unit)->isAssemble()) {
-            return false;
-        }
-    }
-    return true;
+{
+
+	for (int i = 0; i < 500; i++) {
+		TUnit* unit = &pUnits[i];
+		if (!unit->isAssemble()) {
+			return false;
+		}
+	}
+	return true;
 }
 
 /*
@@ -831,10 +781,7 @@ bool Pikmin::TMgr::isAssemble()
  * Address:	803E528C
  * Size:	000010
  */
-Pikmin::TUnit* Pikmin::TMgr::getUnit(long idx)
-{
-	return &pUnits[idx];
-}
+Pikmin::TUnit* Pikmin::TMgr::getUnit(long idx) { return &pUnits[idx]; }
 
 /*
  * --INFO--
@@ -1096,19 +1043,18 @@ blr
  */
 void Pikmin::TUnit::goDestination()
 {
-    Vector2f Diff(destPos.x - mPos.x, destPos.y - mPos.y);
-    f32 comp = _lenVec2D(Diff);
-    if (comp < mManager->mParams.mStopDist.mValue) {
-        startState((enumState)1);
-        return;
-    }
-    
-    if (comp < mManager->mParams.mConvDist.mValue) {
-        startState((enumState)2);
-        return;
-    }
-    startState((enumState)2);
-    
+	Vector2f Diff(destPos.x - mPos.x, destPos.y - mPos.y);
+	f32 comp = _lenVec2D(Diff);
+	if (comp < mManager->mParams.mStopDist.mValue) {
+		startState((enumState)1);
+		return;
+	}
+
+	if (comp < mManager->mParams.mConvDist.mValue) {
+		startState((enumState)2);
+		return;
+	}
+	startState((enumState)2);
 }
 
 /*
@@ -1118,7 +1064,7 @@ void Pikmin::TUnit::goDestination()
  */
 /* void Pikmin::TUnit::chaseKogane(ebi::title::TObjBase*)
 {
-	// UNUSED FUNCTION
+    // UNUSED FUNCTION
 } */
 
 /*
@@ -1128,13 +1074,13 @@ void Pikmin::TUnit::goDestination()
  */
 bool Pikmin::TUnit::beAttacked()
 {
-    if (_94 != false) {
-        return 0;
-    }
-    _94 = true;
-    _84 = 0;
-    mPos = titleMgr->getPosOutOfViewField();
-    return 1;
+	if (_94 != false) {
+		return 0;
+	}
+	_94  = true;
+	_84  = 0;
+	mPos = titleMgr->getPosOutOfViewField();
+	return 1;
 }
 
 /*
@@ -1142,20 +1088,14 @@ bool Pikmin::TUnit::beAttacked()
  * Address:	803E5700
  * Size:	00000C
  */
-void Pikmin::TUnit::alive()
-{
-	_94 = false;
-}
+void Pikmin::TUnit::alive() { _94 = false; }
 
 /*
  * --INFO--
  * Address:	803E570C
  * Size:	000014
  */
-bool Pikmin::TUnit::isCalc()
-{
-	return  (bool) ( _84 );
-}
+bool Pikmin::TUnit::isCalc() { return (bool)(_84); }
 
 /*
  * --INFO--
@@ -1164,10 +1104,10 @@ bool Pikmin::TUnit::isCalc()
  */
 bool Pikmin::TUnit::isAssemble()
 {
-  if ((_84 == 0) || (_84 == 1)) {
-    return true;
-  }
-  return false;
+	if ((_84 == 0) || (_84 == 1)) {
+		return true;
+	}
+	return false;
 }
 
 /*
@@ -1177,10 +1117,10 @@ bool Pikmin::TUnit::isAssemble()
  */
 bool Pikmin::TUnit::isWalk()
 {
-  if ((_84 == 2) || (_84 == 4)) {
-    return true;
-  }
-  return false;
+	if ((_84 == 2) || (_84 == 4)) {
+		return true;
+	}
+	return false;
 }
 
 /*
@@ -1190,7 +1130,7 @@ bool Pikmin::TUnit::isWalk()
  */
 /* void Pikmin::TUnit::isBoid()
 {
-	// UNUSED FUNCTION
+    // UNUSED FUNCTION
 } */
 
 /*
@@ -2344,39 +2284,36 @@ blr
 	*/
 }
 
-
 /*
  * --INFO--
  * Address:	803E4668
  * Size:	000164
  */
-void Pikmin::TMgr::setStartPos(Vector2f* pos) 
+void Pikmin::TMgr::setStartPos(Vector2f* pos)
 {
-    for (int i = 0; i<500; i++) {
-        TUnit* unit = &pUnits[i];
-        unit->mPos.x = pos[i].x;
-        unit->mPos.y = pos[i].y;
-    }
-} 
+	for (int i = 0; i < 500; i++) {
+		TUnit* unit  = &pUnits[i];
+		unit->mPos.x = pos[i].x;
+		unit->mPos.y = pos[i].y;
+	}
+}
 
 /*
  * --INFO--
  * Address:	803E47CC
  * Size:	000164
  */
-void Pikmin::TMgr::setDestPos(Vector2f* pos) 
+void Pikmin::TMgr::setDestPos(Vector2f* pos)
 {
-    for (int i = 0; i<500; i++) {
-        TUnit* unit = &pUnits[i];
-        unit->destPos.x = pos[i].x;
-        unit->destPos.y = pos[i].y;
-    }
-} 
+	for (int i = 0; i < 500; i++) {
+		TUnit* unit     = &pUnits[i];
+		unit->destPos.x = pos[i].x;
+		unit->destPos.y = pos[i].y;
+	}
+}
 
 } // namespace title
 } // namespace ebi
-
-
 
 namespace ebi {
 namespace title {
@@ -2385,10 +2322,7 @@ namespace title {
  * Address:	803E668C
  * Size:	000200
  */
-void Pikmin::TUnit::updateSmoothWalk_(Vector2f& arg)
-{
-    arg.normalise();
-}
+void Pikmin::TUnit::updateSmoothWalk_(Vector2f& arg) { arg.normalise(); }
 
 /*
  * --INFO--
@@ -2649,78 +2583,5 @@ blr
 	*/
 }
 
-/*
- * --INFO--
- * Address:	803E6BDC
- * Size:	000238
- */
-Pikmin::TBoidParam::TBoidParam() 
-    : Parameters(nullptr, "TTitleStateParameters")
-    , mTurnMag(this, 'tsp0', "向き変えベクトルの大きさ", 0.2f, 0.0f, 10.0f)
-    , mMaxTurnVec(this, 'tsp1', "向き変えベクトル最大", 0.4f, 0.0f, 10.0f)
-    , mMaxWalkSpeed(this, 'tsp2', "向き変えベクトル最大", 2.0f, 0.0f, 10.0f)
-    , mBoidColl(this, 'tsp5', "BOID衝突回避係数", 800.0f, 0.0f, 10000.0f)
-    , mBoidSpeedMatch(this, 'tsp6', "BOID速度合わせ係数", 4.5f, 0.0f, 100.0f)
-    , mBoidCenter(this, 'tsp7', "BOID中心集合係数", 0.005f, 0.0f, 100.0f)
-    , mBoidNeighbor(this, 'tsp8', "BOID個体の近所サーチ半径", 30.0f, 0.0f, 500.0f)
-    , mGroupCenter(this, 'tsp9', "群の中心と個体の目的地の割合", 0.0f, 0.0f, 1.0f)
-{
-}
-
-/*
- * --INFO--
- * Address:	803E6E14
- * Size:	0000FC
- */
-Pikmin::TUnit::TUnit()
-{
-    _38.init(0);
-    _4C.init(0);
-    _8C = 0;
-    _90 = 0;
-    destPos = Vector2f(0.0f, 0.0f);
-    mManager = nullptr;
-    _60 = Vector2f(1.0f, 1.0f);
-    _68 = 0;
-    _6C = 0.0f;
-    _70 = 0.0f;
-    _74 = 0.0f;
-    _78 = 0.0f;
-    _7C = 0.0f;
-    _80 = 0.0f;
-    _84 = 0;
-    _88 = 0;
-    _94 = false;
-}
-
-
-/*
- * --INFO--
- * Address:	803E6F10
- * Size:	000418
- */
-Pikmin::TParam::TParam()
-    : mIntScale(this, 'pk00', "海外版スケール", 2.4f, 0.0f, 10.0f)
-    , mJpnScale(this, 'pk99', "日本語版スケール", 2.6f, 0.0f, 10.0f)
-    , mCollRadius(this, 'pk01', "コリジョン半径", 5.0f, 0.0f, 100.0f)
-    , mStopDist(this, 'pk02', "停止距離", 20.0f, 0.0f, 100.0f)
-    , mConvDist(this, 'pk03', "収束距離", 50.0f, 0.0f, 100.0f)
-    , mShadowX(this, 'pk05', "影ずらしX", 5.0f, 0.0f, 100.0f)
-    , mShadowZ(this, 'pk06', "影ずらしZ", 5.0f, 0.0f, 100.0f)
-    , mAnimSpeedWalk(this, 'pk07', "アニメスピード歩く（速度比例）", 0.5f, 0.0f, 10.0f)
-    , mAnimSpeedStyle(this, 'pk08', "アニメスピード風", 0.5f, 0.0f, 10.0f)
-    , mAnimMaxWaitTime(this, 'pk10', "アニメスピードWAIT最大", 0.5f, 0.0f, 10.0f)
-    , mAnimMinWaitTime(this, 'pk09', "アニメスピードWAIT最小", 0.0f, 0.0f, 10.0f)
-    , mKogane(this, 'pk12', "コガネ好き好き係数", 5.0f, -10.0f, 10.0f)
-    , mChappyRun(this, 'pk13', "チャッピーから逃げる係数", -5.0f, -10.0f, 10.0f)
-    , mChaseGiveUp(this, 'pk14', "追いかけあきらめ半径", 400.0f, -10.0f, 500.0f)
-    , mWindTimer(this, 'pk11', "風タイマー(秒)", 6.0f, 0.0f, 10.0f)
-    , mDistSpeedFactor(this, 'pk04', "距離比例速度係数", 0.2f, 0.0f, 1.0f)
-{
-}
-
-
 } // namespace title
 } // namespace ebi
-
-
