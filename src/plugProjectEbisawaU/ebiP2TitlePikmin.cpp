@@ -2322,7 +2322,37 @@ namespace title {
  * Address:	803E668C
  * Size:	000200
  */
-void Pikmin::TUnit::updateSmoothWalk_(Vector2f& arg) { arg.normalise(); }
+void Pikmin::TUnit::updateSmoothWalk_(Vector2f& arg) { 
+    f32 _964 = mManager->_964;
+    f32 _968 = mManager->_968;
+    f32 len =  mManager->_960;
+    f32 res = arg.length();
+    if (res > len) {
+        res = len;
+    }
+    else if (res < 0.0f) {
+        res = 0.0f;
+    }
+    mParms[0] = res;
+    Vector2f pos(arg);
+    len = _sqrtf( (pos.x * pos.x) + (pos.y * pos.y));
+    if (len != 0.0f) {
+        f32 norm = 1.0f / len;
+        pos.x *= norm;
+        pos.y *= norm;
+    }
+    pos = pos * _964;
+    f32 len2 = _sqrtf( (pos.x * pos.x) + (pos.y * pos.y));
+    if (len2 > _968) {
+        pos.normalise();
+        pos = pos * _968;
+    }
+    
+    mAngle = mAngle + pos;
+    mAngle.normalise();
+    mPos = mPos + mAngle * mParms[0];
+
+}
 
 /*
  * --INFO--
