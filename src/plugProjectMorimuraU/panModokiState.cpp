@@ -962,44 +962,24 @@ void StateCarryEnd::exec(EnemyBase* enemy)
 {
 	if (enemy->mHealth <= 0.0f) {
 		transit(enemy, PANMODOKI_Dead, nullptr);
+
 	} else {
 		Vector3f enemyPos = enemy->getPosition();
-		f32 homeX = enemy->mHomePosition.x;
-		f32 homeY = enemy->mHomePosition.y;
-		f32 homeZ = enemy->mHomePosition.z;
-		f32 distX = homeX - enemyPos.x;
-		f32 distY = homeY - enemyPos.y;
-		f32 distZ = homeZ - enemyPos.z;
-		if ((2.0 >= FABS(distX)) || (2.0 >= FABS(distZ))) {
-			Vector3f homePos = Vector3f(homeX, homeY, homeZ);
+		Vector3f diff     = enemy->mHomePosition - enemyPos;
+		if (FABS(diff.x) < 2.0f && FABS(diff.z) < 2.0f) {
+			Vector3f homePos = enemy->mHomePosition;
 			enemy->onSetPosition(homePos);
-			if ((enemy->mCurAnim->mIsPlaying != FALSE) && (enemy->mCurAnim->mType == KEYEVENT_1)) {
+			if (enemy->mCurAnim->mIsPlaying && enemy->mCurAnim->mType == KEYEVENT_1) {
 				transit(enemy, PANMODOKI_Hide, nullptr);
 			}
+
 		} else {
-			f32 rotSpeed = CG_PARMS(enemy)->mGeneral.mRotationalSpeed.mValue;
-			f32 rotAccel = CG_PARMS(enemy)->mGeneral.mRotationalAccel.mValue;
-			homeX = roundAng(JMath::atanTable_.atan2_(_10.x - enemyPos.x, _10.z - enemyPos.z));
-			f32 enemyFaceDir = enemy->getFaceDir();
-			angDist(homeX, enemyFaceDir);
-			homeX = homeX * rotAccel;
-			enemyFaceDir = rotSpeed * DEG2RAD * PI;
-			if ((enemyFaceDir < FABS(homeX)) && (homeX = enemyFaceDir, homeX <= 0.0)) {
-					homeX = -enemyFaceDir;
-			}
-			enemyFaceDir = enemy->getFaceDir();
-			homeX = roundAng(homeX + enemyFaceDir);
-			enemy->mFaceDir = homeX;
-			f32 posModX = distX / 2;
-			f32 posModY = distY / 2;
-			f32 posModZ = distZ / 2;
-			enemy->mRotation.y = enemy->mFaceDir;
-			enemy->mPosition.x = enemy->mPosition.x + posModX;
-			enemy->mPosition.y = enemy->mPosition.y + posModY;
-			enemy->mPosition.z = enemy->mPosition.z + posModZ;
-			distX = posModX;
-			distY = posModY;
-			distZ = posModZ;
+			enemy->turnToTargetMori(_10, CG_PARMS(enemy)->mGeneral.mRotationalAccel.mValue,
+			                        CG_PARMS(enemy)->mGeneral.mRotationalSpeed.mValue);
+			diff.x *= 0.05f;
+			diff.y *= 0.05f;
+			diff.z *= 0.05f;
+			enemy->forceMovePosition(diff);
 		}
 		if ((enemy->mCurAnim->mIsPlaying != FALSE) && (enemy->mCurAnim->mType == KEYEVENT_END)) {
 			transit(enemy, PANMODOKI_Hide, nullptr);
