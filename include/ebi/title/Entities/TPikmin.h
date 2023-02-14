@@ -151,7 +151,7 @@ struct TUnit : public TObjBase {
 
 	~TUnit();
 
-	virtual u32 getCreatureType(); // _08 (weak)
+	virtual u32 getCreatureType()  { return 0; } // _08 (weak)
 	virtual bool isCalc();         // _0C
 
 	void init(TMgr*, long);
@@ -171,12 +171,20 @@ struct TUnit : public TObjBase {
 	TMgr* mManager; // _34
 	J3DFrameCtrl _38; // _38
 	J3DFrameCtrl _4C; // _4C
-	f32 _60; 		  // _60
-	f32 _64; 		  // _64
-	u32 unk[7]; // _68
+	Vector2f _60; 	  // _60
+	// These 6 floats could be 3 Vector2f variables
+	u32 _68; // _68
+	f32 _6C; // _6C
+	f32 _70; // _70
+	f32 _74; // _74
+	f32 _78; // _78
+	f32 _7C; // _7C
+	f32 _80; // _80
 	s32 _84;		// _84
-	u32 unk2[3];		// _88
-	bool isDead;		// _94
+	u32 _88;		// _88
+	u32 _8C;		// _8C
+	u32 _90;		// _90
+	bool _94;		// _94
 	bool unk3[2];		// _96
 
 };
@@ -201,7 +209,7 @@ struct TMgr : public CNode {
 	void startDemo();
 	void enemyPushOut(TObjBase*);
 	void updateCalcBoid_();
-	void isAssemble();
+	bool isAssemble();
 	TUnit* getUnit(long);
 
 	// _00     = VTBL
@@ -210,7 +218,15 @@ struct TMgr : public CNode {
 	TParam	mParams; 			 // _1C
 	TUnit*	pUnits;				 // _2AC
 	TBoidParamMgr mBoidParamMgr; // _2B0
-	f32 unk[8];                  // _960 - Possibly 4 Vector2f variables
+	// Possibly 4 Vector2f variables
+	f32 _960;                    // _960  
+	f32 _964;                    // _964  
+	f32 _968;                    // _968  
+	f32 _96C;                    // _96C  
+	f32 _970;                    // _970  
+	f32 _974;                    // _974  
+	f32 _978;                    // _978  
+	f32 _97C;                    // _97C  
 	u32 mCounter;				 // _980
 	u32 mCounter2;				 // _984
 	f32	_998;					 // _998 

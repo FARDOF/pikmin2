@@ -2,6 +2,7 @@
 #include "ebi/title/TTitle.h"
 #include "types.h"
 #include "JSystem/J3D/J3DModelLoader.h"
+#include "nans.h"
 
 /*
     Generated from dpostproc
@@ -505,14 +506,14 @@ Pikmin::TMgr::TMgr()
 {
     mCounter = 0;
     mCounter2 = 0;
-    unk[0] = 0;
-    unk[1] = 0;
-    unk[2] = 0;
-    unk[3] = 0;
-    unk[4] = 0;
-    unk[5] = 0;
-    unk[6] = 0;
-    unk[7] = 0;
+    _960 = 0;
+    _964 = 0;
+    _968 = 0;
+    _96C = 0;
+    _970 = 0;
+    _974 = 0;
+    _978 = 0;
+    _97C = 0;
     u32 time               = 0.0f / sys->mDeltaTime;
     mCounter = time;
     mCounter2 = time;
@@ -748,53 +749,17 @@ void Pikmin::TMgr::startBoid3(f32 arg)
  * Address:	803E4CB0
  * Size:	00009C
  */
-void Pikmin::TMgr::startWindBlow(ebi::EGEBox2f&)
+void Pikmin::TMgr::startWindBlow(ebi::EGEBox2f& box)
 {
-	/*
-stwu     r1, -0x30(r1)
-mflr     r0
-stw      r0, 0x34(r1)
-stmw     r27, 0x1c(r1)
-mr       r27, r3
-mr       r28, r4
-li       r30, 0
-li       r31, 0
-
-lbl_803E4CD0:
-lwz      r0, 0x2ac(r27)
-add      r29, r0, r31
-mr       r3, r29
-lwz      r12, 0(r29)
-lwz      r12, 0xc(r12)
-mtctr    r12
-bctrl
-clrlwi.  r0, r3, 0x18
-beq      lbl_803E4D28
-lfs      f1, 8(r29)
-mr       r3, r28
-lfs      f0, 4(r29)
-addi     r4, r1, 8
-stfs     f0, 8(r1)
-stfs     f1, 0xc(r1)
-bl       "isOut__Q23ebi8EGEBox2fFR10Vector2<f>"
-clrlwi.  r0, r3, 0x18
-bne      lbl_803E4D28
-lwz      r0, 0x2ac(r27)
-li       r4, 3
-add      r3, r0, r31
-bl startState__Q43ebi5title6Pikmin5TUnitFQ53ebi5title6Pikmin5TUnit9enumState
-
-lbl_803E4D28:
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x1f4
-blt      lbl_803E4CD0
-lmw      r27, 0x1c(r1)
-lwz      r0, 0x34(r1)
-mtlr     r0
-addi     r1, r1, 0x30
-blr
-	*/
+    for (int i = 0; i<500; i++) {
+        TUnit* unit = &pUnits[i];
+        if (unit->isCalc()) {
+            Vector2f unitPos = Vector2f(unit->mPos.x, unit->mPos.y);
+            if (!box.isOut(unitPos)) {
+                (pUnits[i]).startState((Pikmin::TUnit::enumState)3);
+            }
+        }
+    }
 }
 
 /*
@@ -804,55 +769,21 @@ blr
  */
 void Pikmin::TMgr::startDemo()
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-stw      r0, 0x24(r1)
-stw      r31, 0x1c(r1)
-li       r31, 0
-stw      r30, 0x18(r1)
-li       r30, 0
-stw      r29, 0x14(r1)
-mr       r29, r3
-
-lbl_803E4D70:
-lwz      r0, 0x2ac(r29)
-add      r3, r0, r31
-bl       alive__Q43ebi5title6Pikmin5TUnitFv
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x1f4
-blt      lbl_803E4D70
-lwz      r3, 0x2c8(r29)
-li       r0, 1
-lfs      f1, lbl_8051FC90@sda21(r2)
-stw      r3, 0x2cc(r29)
-stw      r0, 0x2c8(r29)
-lwz      r3, sys@sda21(r13)
-lfs      f0, 0x54(r3)
-fdivs    f1, f1, f0
-bl       __cvt_fp2unsigned
-stw      r3, 0x980(r29)
-li       r31, 0
-mr       r30, r31
-stw      r3, 0x984(r29)
-
-lbl_803E4DC0:
-lwz      r0, 0x2ac(r29)
-add      r3, r0, r30
-bl       goDestination__Q43ebi5title6Pikmin5TUnitFv
-addi     r31, r31, 1
-addi     r30, r30, 0x98
-cmpwi    r31, 0x1f4
-blt      lbl_803E4DC0
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+    int i;
+    for (i = 0; i<500; i++) {
+        TUnit* unit = &pUnits[i];
+        unit->alive();
+    }
+    mBoidParamMgr._1C = mBoidParamMgr._18;
+    mBoidParamMgr._18 = 1;
+    u32 time               = (1.0f)  / sys->mDeltaTime;
+    mCounter               = time;
+    mCounter2              = time;
+    TUnit* unit;
+    for (i = 0; i<500; i++) {
+        unit = &pUnits[i];
+        (unit)->goDestination();
+    }
 }
 
 /*
@@ -860,39 +791,12 @@ blr
  * Address:	803E4DF8
  * Size:	00006C
  */
-void Pikmin::TMgr::enemyPushOut(ebi::title::TObjBase*)
+void Pikmin::TMgr::enemyPushOut(ebi::title::TObjBase* obj) 
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-stw      r0, 0x24(r1)
-stw      r31, 0x1c(r1)
-li       r31, 0
-stw      r30, 0x18(r1)
-li       r30, 0
-stw      r29, 0x14(r1)
-mr       r29, r4
-stw      r28, 0x10(r1)
-mr       r28, r3
-
-lbl_803E4E24:
-lwz      r0, 0x2ac(r28)
-mr       r3, r29
-add      r4, r0, r31
-bl       pushOut__Q33ebi5title8TObjBaseFPQ33ebi5title8TObjBase
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x1f4
-blt      lbl_803E4E24
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-lwz      r28, 0x10(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+    for (int i = 0; i<500; i++) {
+        TUnit* unit = &pUnits[i];
+        (unit)->pushOut(obj);
+    }
 }
 
 /*
@@ -902,284 +806,7 @@ blr
  */
 void Pikmin::TMgr::updateCalcBoid_()
 {
-	/*
-stwu     r1, -0xa0(r1)
-mflr     r0
-stw      r0, 0xa4(r1)
-stfd     f31, 0x90(r1)
-psq_st   f31, 152(r1), 0, qr0
-stfd     f30, 0x80(r1)
-psq_st   f30, 136(r1), 0, qr0
-stfd     f29, 0x70(r1)
-psq_st   f29, 120(r1), 0, qr0
-stfd     f28, 0x60(r1)
-psq_st   f28, 104(r1), 0, qr0
-stfd     f27, 0x50(r1)
-psq_st   f27, 88(r1), 0, qr0
-stfd     f26, 0x40(r1)
-psq_st   f26, 72(r1), 0, qr0
-stmw     r23, 0x1c(r1)
-lbz      r0, init$4027@sda21(r13)
-mr       r31, r3
-extsb.   r0, r0
-bne      lbl_803E4EC4
-li       r3, 0
-li       r0, 1
-stw      r3, boidCalcTimer$4026@sda21(r13)
-stb      r0, init$4027@sda21(r13)
 
-lbl_803E4EC4:
-lwz      r3, boidCalcTimer$4026@sda21(r13)
-addi     r0, r3, 1
-cmpwi    r0, 0xa
-stw      r0, boidCalcTimer$4026@sda21(r13)
-blt      lbl_803E4F94
-li       r30, 0
-lfs      f0, lbl_8051FC60@sda21(r2)
-stw      r30, boidCalcTimer$4026@sda21(r13)
-li       r29, 0
-li       r28, 0
-stfs     f0, 0x988(r31)
-stfs     f0, 0x98c(r31)
-
-lbl_803E4EF4:
-lwz      r0, 0x2ac(r31)
-add      r3, r0, r30
-lwz      r12, 0(r3)
-lwz      r12, 0xc(r12)
-mtctr    r12
-bctrl
-clrlwi.  r0, r3, 0x18
-beq      lbl_803E4F40
-lwz      r0, 0x2ac(r31)
-addi     r29, r29, 1
-lfs      f1, 0x988(r31)
-add      r3, r0, r30
-lfs      f3, 0x98c(r31)
-lfs      f0, 4(r3)
-lfs      f2, 8(r3)
-fadds    f0, f1, f0
-fadds    f1, f3, f2
-stfs     f0, 0x988(r31)
-stfs     f1, 0x98c(r31)
-
-lbl_803E4F40:
-addi     r28, r28, 1
-addi     r30, r30, 0x98
-cmpwi    r28, 0x1f4
-blt      lbl_803E4EF4
-cmpwi    r29, 0
-beq      lbl_803E4F94
-xoris    r3, r29, 0x8000
-lis      r0, 0x4330
-stw      r3, 0xc(r1)
-lfd      f2, lbl_8051FCD8@sda21(r2)
-stw      r0, 8(r1)
-lfs      f3, lbl_8051FC90@sda21(r2)
-lfd      f1, 8(r1)
-lfs      f0, 0x988(r31)
-fsubs    f1, f1, f2
-fdivs    f1, f3, f1
-fmuls    f0, f0, f1
-stfs     f0, 0x988(r31)
-lfs      f0, 0x98c(r31)
-fmuls    f0, f0, f1
-stfs     f0, 0x98c(r31)
-
-lbl_803E4F94:
-lwz      r5, boidCalcTimer$4026@sda21(r13)
-lis      r3, 0x66666667@ha
-addi     r4, r3, 0x66666667@l
-mulli    r0, r5, 0x1f4
-cmpwi    r5, 9
-mulhw    r0, r4, r0
-srawi    r0, r0, 2
-srwi     r3, r0, 0x1f
-add      r6, r0, r3
-bne      lbl_803E4FC4
-li       r28, 0x1f4
-b        lbl_803E4FDC
-
-lbl_803E4FC4:
-addi     r0, r5, 1
-mulli    r0, r0, 0x1f4
-mulhw    r0, r4, r0
-srawi    r0, r0, 2
-srwi     r3, r0, 0x1f
-add      r28, r0, r3
-
-lbl_803E4FDC:
-mulli    r29, r6, 0x98
-mr       r27, r6
-b        lbl_803E51D0
-
-lbl_803E4FE8:
-lwz      r0, 0x2ac(r31)
-add      r26, r0, r29
-mr       r3, r26
-bl       isWalk__Q43ebi5title6Pikmin5TUnitFv
-clrlwi.  r0, r3, 0x18
-beq      lbl_803E51C8
-lfs      f4, 0x978(r31)
-li       r25, 0
-lfs      f1, lbl_8051FC90@sda21(r2)
-li       r24, 0
-lfs      f29, lbl_8051FC60@sda21(r2)
-li       r30, 0
-lfs      f0, 0x98c(r31)
-fsubs    f5, f1, f4
-lfs      f2, 0x30(r26)
-fmr      f28, f29
-lfs      f1, 0x988(r31)
-fmuls    f3, f0, f4
-lfs      f0, 0x2c(r26)
-fmuls    f2, f2, f5
-fmuls    f1, f1, f4
-fmuls    f0, f0, f5
-fmr      f27, f29
-fmr      f26, f29
-fadds    f31, f3, f2
-fadds    f30, f1, f0
-
-lbl_803E5050:
-lwz      r0, 0x2ac(r31)
-add      r23, r0, r30
-mr       r3, r23
-lwz      r12, 0(r23)
-lwz      r12, 0xc(r12)
-mtctr    r12
-bctrl
-clrlwi.  r0, r3, 0x18
-beq      lbl_803E5150
-lfs      f2, 8(r26)
-lfs      f0, 8(r23)
-lfs      f1, 4(r26)
-fsubs    f6, f2, f0
-lfs      f0, 4(r23)
-lfs      f3, lbl_8051FC60@sda21(r2)
-fsubs    f5, f1, f0
-fmuls    f7, f6, f6
-fmadds   f8, f5, f5, f7
-fcmpo    cr0, f8, f3
-ble      lbl_803E50B4
-ble      lbl_803E50B0
-frsqrte  f0, f8
-fmuls    f3, f0, f8
-b        lbl_803E50B4
-
-lbl_803E50B0:
-fmr      f3, f8
-
-lbl_803E50B4:
-lfs      f0, 0x97c(r31)
-fcmpo    cr0, f3, f0
-bge      lbl_803E5150
-lfs      f4, 0x14(r23)
-lfs      f0, 0xc(r23)
-lfs      f1, 0x10(r23)
-fmuls    f2, f0, f4
-lfs      f0, lbl_8051FC90@sda21(r2)
-fmuls    f1, f1, f4
-fcmpo    cr0, f3, f0
-fadds    f29, f29, f2
-fadds    f28, f28, f1
-bge      lbl_803E50EC
-fmr      f3, f0
-
-lbl_803E50EC:
-lfs      f0, lbl_8051FC60@sda21(r2)
-fcmpo    cr0, f8, f0
-ble      lbl_803E5110
-fmadds   f1, f5, f5, f7
-fcmpo    cr0, f1, f0
-ble      lbl_803E5114
-frsqrte  f0, f1
-fmuls    f1, f0, f1
-b        lbl_803E5114
-
-lbl_803E5110:
-fmr      f1, f0
-
-lbl_803E5114:
-lfs      f0, lbl_8051FC60@sda21(r2)
-fcmpu    cr0, f0, f1
-beq      lbl_803E5130
-lfs      f0, lbl_8051FC90@sda21(r2)
-fdivs    f0, f0, f1
-fmuls    f5, f5, f0
-fmuls    f6, f6, f0
-
-lbl_803E5130:
-fmuls    f0, f3, f3
-lfs      f1, lbl_8051FC90@sda21(r2)
-addi     r25, r25, 1
-fdivs    f0, f1, f0
-fmuls    f1, f6, f0
-fmuls    f0, f5, f0
-fadds    f26, f26, f1
-fadds    f27, f27, f0
-
-lbl_803E5150:
-addi     r24, r24, 1
-addi     r30, r30, 0x98
-cmpwi    r24, 0x1f4
-blt      lbl_803E5050
-cmpwi    r25, 0
-bne      lbl_803E517C
-lfs      f2, lbl_8051FC60@sda21(r2)
-fmr      f3, f2
-fmr      f1, f2
-fmr      f0, f2
-b        lbl_803E51B0
-
-lbl_803E517C:
-xoris    r3, r25, 0x8000
-lis      r0, 0x4330
-stw      r3, 0xc(r1)
-lfd      f1, lbl_8051FCD8@sda21(r2)
-stw      r0, 8(r1)
-lfs      f2, lbl_8051FC90@sda21(r2)
-lfd      f0, 8(r1)
-fsubs    f0, f0, f1
-fdivs    f0, f2, f0
-fmuls    f3, f26, f0
-fmuls    f2, f27, f0
-fmuls    f1, f29, f0
-fmuls    f0, f28, f0
-
-lbl_803E51B0:
-stfs     f30, 0x6c(r26)
-stfs     f31, 0x70(r26)
-stfs     f1, 0x74(r26)
-stfs     f0, 0x78(r26)
-stfs     f2, 0x7c(r26)
-stfs     f3, 0x80(r26)
-
-lbl_803E51C8:
-addi     r29, r29, 0x98
-addi     r27, r27, 1
-
-lbl_803E51D0:
-cmpw     r27, r28
-blt      lbl_803E4FE8
-psq_l    f31, 152(r1), 0, qr0
-lfd      f31, 0x90(r1)
-psq_l    f30, 136(r1), 0, qr0
-lfd      f30, 0x80(r1)
-psq_l    f29, 120(r1), 0, qr0
-lfd      f29, 0x70(r1)
-psq_l    f28, 104(r1), 0, qr0
-lfd      f28, 0x60(r1)
-psq_l    f27, 88(r1), 0, qr0
-lfd      f27, 0x50(r1)
-psq_l    f26, 72(r1), 0, qr0
-lfd      f26, 0x40(r1)
-lmw      r23, 0x1c(r1)
-lwz      r0, 0xa4(r1)
-mtlr     r0
-addi     r1, r1, 0xa0
-blr
-	*/
 }
 
 /*
@@ -1187,44 +814,16 @@ blr
  * Address:	803E521C
  * Size:	000070
  */
-void Pikmin::TMgr::isAssemble()
-{
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-stw      r0, 0x24(r1)
-stw      r31, 0x1c(r1)
-li       r31, 0
-stw      r30, 0x18(r1)
-li       r30, 0
-stw      r29, 0x14(r1)
-mr       r29, r3
-
-lbl_803E5240:
-lwz      r0, 0x2ac(r29)
-add      r3, r0, r31
-bl       isAssemble__Q43ebi5title6Pikmin5TUnitFv
-clrlwi.  r0, r3, 0x18
-bne      lbl_803E525C
-li       r3, 0
-b        lbl_803E5270
-
-lbl_803E525C:
-addi     r30, r30, 1
-addi     r31, r31, 0x98
-cmpwi    r30, 0x1f4
-blt      lbl_803E5240
-li       r3, 1
-
-lbl_803E5270:
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+bool Pikmin::TMgr::isAssemble()
+{ 
+    
+    for (int i = 0; i<500; i++) {
+        TUnit* unit = &pUnits[i];
+        if (!(unit)->isAssemble()) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /*
@@ -1232,14 +831,9 @@ blr
  * Address:	803E528C
  * Size:	000010
  */
-Pikmin::TUnit* Pikmin::TMgr::getUnit(long)
+Pikmin::TUnit* Pikmin::TMgr::getUnit(long idx)
 {
-	/*
-mulli    r0, r4, 0x98
-lwz      r3, 0x2ac(r3)
-add      r3, r3, r0
-blr
-	*/
+	return &pUnits[idx];
 }
 
 /*
@@ -1502,56 +1096,19 @@ blr
  */
 void Pikmin::TUnit::goDestination()
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-lfs      f0, lbl_8051FC60@sda21(r2)
-stw      r0, 0x14(r1)
-lfs      f3, 0x43300030@l(r3)
-lfs      f1, 8(r3)
-lfs      f2, 0x2c(r3)
-fsubs    f3, f3, f1
-lfs      f1, 4(r3)
-fsubs    f1, f2, f1
-fmuls    f2, f3, f3
-fmadds   f1, f1, f1, f2
-fcmpo    cr0, f1, f0
-ble      lbl_803E5644
-ble      lbl_803E5648
-frsqrte  f0, f1
-fmuls    f1, f0, f1
-b        lbl_803E5648
-
-lbl_803E5644:
-fmr      f1, f0
-
-lbl_803E5648:
-lwz      r4, 0x34(r3)
-lfs      f0, 0xb8(r4)
-fcmpo    cr0, f1, f0
-bge      lbl_803E5664
-li       r4, 1
-bl startState__Q43ebi5title6Pikmin5TUnitFQ53ebi5title6Pikmin5TUnit9enumState
-b        lbl_803E5684
-
-lbl_803E5664:
-lfs      f0, 0xe0(r4)
-fcmpo    cr0, f1, f0
-bge      lbl_803E567C
-li       r4, 2
-bl startState__Q43ebi5title6Pikmin5TUnitFQ53ebi5title6Pikmin5TUnit9enumState
-b        lbl_803E5684
-
-lbl_803E567C:
-li       r4, 2
-bl startState__Q43ebi5title6Pikmin5TUnitFQ53ebi5title6Pikmin5TUnit9enumState
-
-lbl_803E5684:
-lwz      r0, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+    Vector2f Diff(destPos.x - mPos.x, destPos.y - mPos.y);
+    f32 comp = _lenVec2D(Diff);
+    if (comp < mManager->mParams.mStopDist.mValue) {
+        startState((enumState)1);
+        return;
+    }
+    
+    if (comp < mManager->mParams.mConvDist.mValue) {
+        startState((enumState)2);
+        return;
+    }
+    startState((enumState)2);
+    
 }
 
 /*
@@ -1571,39 +1128,13 @@ blr
  */
 bool Pikmin::TUnit::beAttacked()
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-stw      r0, 0x24(r1)
-stw      r31, 0x1c(r1)
-mr       r31, r3
-lbz      r0, 0x94(r3)
-cmplwi   r0, 0
-beq      lbl_803E56BC
-li       r3, 0
-b        lbl_803E56EC
-
-lbl_803E56BC:
-li       r3, 1
-li       r0, 0
-stb      r3, 0x94(r31)
-addi     r3, r1, 8
-stw      r0, 0x84(r31)
-lwz      r4, titleMgr__Q23ebi5title@sda21(r13)
-bl       getPosOutOfViewField__Q33ebi5title9TTitleMgrFv
-lfs      f0, 8(r1)
-li       r3, 1
-stfs     f0, 4(r31)
-lfs      f0, 0xc(r1)
-stfs     f0, 8(r31)
-
-lbl_803E56EC:
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+    if (_94 != false) {
+        return 0;
+    }
+    _94 = true;
+    _84 = 0;
+    mPos = titleMgr->getPosOutOfViewField();
+    return 1;
 }
 
 /*
@@ -1613,7 +1144,7 @@ blr
  */
 void Pikmin::TUnit::alive()
 {
-	isDead = false;
+	_94 = false;
 }
 
 /*
@@ -1633,21 +1164,10 @@ bool Pikmin::TUnit::isCalc()
  */
 bool Pikmin::TUnit::isAssemble()
 {
-	/*
-lwz      r0, 0x84(r3)
-cmpwi    r0, 0
-beq      lbl_803E5734
-cmpwi    r0, 1
-bne      lbl_803E573C
-
-lbl_803E5734:
-li       r3, 1
-blr
-
-lbl_803E573C:
-li       r3, 0
-blr
-	*/
+  if ((_84 == 0) || (_84 == 1)) {
+    return true;
+  }
+  return false;
 }
 
 /*
@@ -1657,21 +1177,10 @@ blr
  */
 bool Pikmin::TUnit::isWalk()
 {
-	/*
-lwz      r0, 0x84(r3)
-cmpwi    r0, 2
-beq      lbl_803E5758
-cmpwi    r0, 4
-bne      lbl_803E5760
-
-lbl_803E5758:
-li       r3, 1
-blr
-
-lbl_803E5760:
-li       r3, 0
-blr
-	*/
+  if ((_84 == 2) || (_84 == 4)) {
+    return true;
+  }
+  return false;
 }
 
 /*
@@ -2845,7 +2354,6 @@ void Pikmin::TMgr::setStartPos(Vector2f* pos)
 {
     for (int i = 0; i<500; i++) {
         TUnit* unit = &pUnits[i];
-        //unit->mPos = Vector2f(pos[i].x, pos[i].y);
         unit->mPos.x = pos[i].x;
         unit->mPos.y = pos[i].y;
     }
@@ -2860,7 +2368,6 @@ void Pikmin::TMgr::setDestPos(Vector2f* pos)
 {
     for (int i = 0; i<500; i++) {
         TUnit* unit = &pUnits[i];
-        //unit->mPos = Vector2f(pos[i].x, pos[i].y);
         unit->destPos.x = pos[i].x;
         unit->destPos.y = pos[i].y;
     }
@@ -2869,17 +2376,19 @@ void Pikmin::TMgr::setDestPos(Vector2f* pos)
 } // namespace title
 } // namespace ebi
 
+
+
+namespace ebi {
+namespace title {
 /*
  * --INFO--
  * Address:	803E668C
  * Size:	000200
  */
-/* void updateSmoothWalk___Q43ebi5title6Pikmin5TUnitFR10Vector2<float>()
+void Pikmin::TUnit::updateSmoothWalk_(Vector2f& arg)
 {
-} */
-
-namespace ebi {
-namespace title {
+    arg.normalise();
+}
 
 /*
  * --INFO--
@@ -3165,72 +2674,25 @@ Pikmin::TBoidParam::TBoidParam()
  */
 Pikmin::TUnit::TUnit()
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-lis      r4, __vt__Q33ebi5title8TObjBase@ha
-lfs      f2, lbl_8051FC60@sda21(r2)
-stw      r0, 0x14(r1)
-addi     r0, r4, __vt__Q33ebi5title8TObjBase@l
-lis      r4, __vt__Q43ebi5title6Pikmin5TUnit@ha
-lfs      f1, lbl_8051FCA0@sda21(r2)
-stw      r31, 0xc(r1)
-addi     r5, r4, __vt__Q43ebi5title6Pikmin5TUnit@l
-mr       r31, r3
-lfs      f0, lbl_8051FC90@sda21(r2)
-stw      r0, 0(r3)
-lis      r3, __vt__12J3DFrameCtrl@ha
-addi     r0, r3, __vt__12J3DFrameCtrl@l
-li       r6, 0
-stfs     f2, 4(r31)
-addi     r3, r31, 0x38
-li       r4, 0
-stfs     f2, 8(r31)
-stfs     f2, 0xc(r31)
-stfs     f1, 0x10(r31)
-stfs     f2, 0x14(r31)
-stfs     f0, 0x18(r31)
-stfs     f2, 0x1c(r31)
-stfs     f2, 0x20(r31)
-stfs     f2, 0x24(r31)
-stw      r6, 0x28(r31)
-stw      r5, 0(r31)
-stw      r0, 0x38(r31)
-bl       init__12J3DFrameCtrlFs
-lis      r4, __vt__12J3DFrameCtrl@ha
-addi     r3, r31, 0x4c
-addi     r0, r4, __vt__12J3DFrameCtrl@l
-li       r4, 0
-stw      r0, 0x4c(r31)
-bl       init__12J3DFrameCtrlFs
-li       r0, 0
-lfs      f1, lbl_8051FC60@sda21(r2)
-stw      r0, 0x8c(r31)
-mr       r3, r31
-lfs      f0, lbl_8051FC90@sda21(r2)
-stw      r0, 0x90(r31)
-stfs     f1, 0x2c(r31)
-stfs     f1, 0x30(r31)
-stw      r0, 0x34(r31)
-stfs     f0, 0x60(r31)
-stfs     f0, 0x64(r31)
-stw      r0, 0x68(r31)
-stfs     f1, 0x6c(r31)
-stfs     f1, 0x70(r31)
-stfs     f1, 0x74(r31)
-stfs     f1, 0x78(r31)
-stfs     f1, 0x7c(r31)
-stfs     f1, 0x80(r31)
-stw      r0, 0x84(r31)
-stw      r0, 0x88(r31)
-stb      r0, 0x94(r31)
-lwz      r31, 0xc(r1)
-lwz      r0, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+    _38.init(0);
+    _4C.init(0);
+    _8C = 0;
+    _90 = 0;
+    destPos = Vector2f(0.0f, 0.0f);
+    mManager = nullptr;
+    _60 = Vector2f(1.0f, 1.0f);
+    _68 = 0;
+    _6C = 0.0f;
+    _70 = 0.0f;
+    _74 = 0.0f;
+    _78 = 0.0f;
+    _7C = 0.0f;
+    _80 = 0.0f;
+    _84 = 0;
+    _88 = 0;
+    _94 = false;
 }
+
 
 /*
  * --INFO--
@@ -3252,37 +2714,13 @@ Pikmin::TParam::TParam()
     , mKogane(this, 'pk12', "コガネ好き好き係数", 5.0f, -10.0f, 10.0f)
     , mChappyRun(this, 'pk13', "チャッピーから逃げる係数", -5.0f, -10.0f, 10.0f)
     , mChaseGiveUp(this, 'pk14', "追いかけあきらめ半径", 400.0f, -10.0f, 500.0f)
-    , mWindTimer(this, 'pk14', "風タイマー(秒)", 6.0f, 0.0f, 10.0f)
-    , mDistSpeedFactor(this, 'pk14', "距離比例速度係数", 0.2f, 0.0f, 1.0f)
+    , mWindTimer(this, 'pk11', "風タイマー(秒)", 6.0f, 0.0f, 10.0f)
+    , mDistSpeedFactor(this, 'pk04', "距離比例速度係数", 0.2f, 0.0f, 1.0f)
 {
 }
-/*
- * --INFO--
- * Address:	803E7328
- * Size:	000008
- */
-u32 Pikmin::TUnit::getCreatureType() { return 0x0; }
+
 
 } // namespace title
 } // namespace ebi
 
-/*
- * --INFO--
- * Address:	803E7330
- * Size:	000028
- */
-void __sinit_ebiP2TitlePikmin_cpp()
-{
-	/*
-	lis      r4, __float_nan@ha
-	li       r0, -1
-	lfs      f0, __float_nan@l(r4)
-	lis      r3, lbl_804E9DF0@ha
-	stw      r0, lbl_805160E8@sda21(r13)
-	stfsu    f0, lbl_804E9DF0@l(r3)
-	stfs     f0, lbl_805160EC@sda21(r13)
-	stfs     f0, 4(r3)
-	stfs     f0, 8(r3)
-	blr
-	*/
-}
+
