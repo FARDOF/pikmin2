@@ -30,7 +30,7 @@ def main():
 
     url = f"{REPO}/releases/download/{tag}/dtk-{system}-{arch}{suffix}"
     output = args.output
-    # print(f"Downloading {url} to {output}")
+     print(f"Downloading {url} to {output}")
     urllib.request.urlretrieve(url, output)
 
     st = os.stat(output)
